@@ -1,5 +1,5 @@
 // ---- Class reminders ----
-const schedule = {
+const reminderSchedule = { 
     Monday: [
         ["Life and Works of Rizal", "10:00 AM"],
         ["Operating System", "2:30 PM"],
@@ -67,7 +67,7 @@ function checkClassReminder() {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const today = days[now.getDay()];
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    const todaySchedule = schedule[today] || [];
+    const todaySchedule = reminderSchedule[today] || [];
 
     todaySchedule.forEach(subject => {
         const subjectName = subject[0];
