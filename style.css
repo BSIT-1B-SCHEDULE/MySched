@@ -1012,3 +1012,30 @@ button:active {
 #closePanel:hover {
   transform: scale(1.05);
 }
+/* Selected subject glow */
+.subject-card.selected {
+  border-left: 5px solid #f39c12;
+  background: linear-gradient(90deg, rgba(243, 156, 18, 0.08), rgba(255, 255, 255, 0.94));
+  box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.3), 0 8px 20px rgba(243, 156, 18, 0.25);
+  transform: translateY(-3px);
+  position: relative;
+}
+
+.subject-card.selected::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+  background: #f39c12;
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(243, 156, 18, 0.9);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(243, 156, 18, 0.9); }
+  50%      { box-shadow: 0 0 20px rgba(243, 156, 18, 1); }
+}

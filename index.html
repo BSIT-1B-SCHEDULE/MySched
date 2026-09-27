@@ -251,14 +251,21 @@ document.getElementById("saveSubject").addEventListener("click", function () {
   const ADMIN_CODE = "ALEXIS-MASTER-2026";
   let currentSubject = "";
 
-  document.addEventListener("click", function (e) {
-    const card = e.target.closest(".subject-card");
-    if (card) {
-      const nameEl = card.querySelector(".subject-name");
-      const name = nameEl.textContent.replace(/^\d+\.\s*/, "").trim();
-      openPanel(name);
-    }
-  });
+ document.addEventListener("click", function (e) {
+  const card = e.target.closest(".subject-card");
+  if (card) {
+    // Remove glow from any previously selected card
+    document.querySelectorAll(".subject-card.selected").forEach(function (c) {
+      c.classList.remove("selected");
+    });
+    // Add glow to the clicked card
+    card.classList.add("selected");
+
+    const nameEl = card.querySelector(".subject-name");
+    const name = nameEl.textContent.replace(/^\d+\.\s*/, "").trim();
+    openPanel(name);
+  }
+});
 
   function openPanel(subjectName) {
     currentSubject = subjectName;
