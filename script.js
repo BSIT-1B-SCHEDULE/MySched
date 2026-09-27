@@ -25,6 +25,7 @@ const schedule = {
     Saturday: [
         ["CWTS", "9:00 AM"],
         ["ROTC", "9:00 AM"]
+       
     ]
 };
 

@@ -1,0 +1,21 @@
+{
+  "name": "BSIT 1B Schedule",
+  "short_name": "BSIT 1B",
+  "description": "Class schedule and notes for BSIT 1B",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#84b1d8",
+  "theme_color": "#032f4d",
+  "icons": [
+    {
+      "src": "LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
