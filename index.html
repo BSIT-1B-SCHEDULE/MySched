@@ -221,13 +221,22 @@ document.getElementById("saveSubject").addEventListener("click", function () {
         <input type="text" id="noteTitle" placeholder="Title">
         <textarea id="noteContent" placeholder="Type your note..."></textarea>
         <input type="text" id="noteLink" placeholder="Optional link">
-        <button id="submitNote">Post Note</button>
+<input type="datetime-local" id="noteDueDate" style="display:none;">
+<button id="submitNote">Post Note</button>
       </div>
     </div>
   </div>
 </div>
-
 <script>
+    document.getElementById("noteCategory").addEventListener("change", function () {
+  const dueInput = document.getElementById("noteDueDate");
+  if (this.value === "Assignment") {
+    dueInput.style.display = "block";
+  } else {
+    dueInput.style.display = "none";
+    dueInput.value = "";
+  }
+});
   // Rules popup
   if (localStorage.getItem("bsit_rules_seen") === "yes") {
     document.getElementById("rulesPopup").style.display = "none";
@@ -307,6 +316,7 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     const title = document.getElementById("noteTitle").value.trim();
     const content = document.getElementById("noteContent").value.trim();
     const link = document.getElementById("noteLink").value.trim();
+    const dueDate = document.getElementById("noteDueDate").value;
 
     if (!poster) { alert("Please enter your name."); return; }
     if (!title) { alert("Please enter a title."); return; }
@@ -315,19 +325,22 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 
     try {
       await addDoc(collection(window.db, "notes"), {
-        subject: currentSubject,
-        poster: poster,
-        category: category,
-        title: title,
-        content: content,
-        link: link,
-        timestamp: serverTimestamp()
-      });
-      document.getElementById("posterName").value = "";
-      document.getElementById("noteTitle").value = "";
-      document.getElementById("noteContent").value = "";
-      document.getElementById("noteLink").value = "";
-      alert("Note posted!");
+  subject: currentSubject,
+  poster: poster,
+  category: category,
+  title: title,
+  content: content,
+  link: link,
+  dueDate: dueDate || null,
+  timestamp: serverTimestamp()
+});
+ document.getElementById("posterName").value = "";
+document.getElementById("noteTitle").value = "";
+document.getElementById("noteContent").value = "";
+document.getElementById("noteLink").value = "";
+document.getElementById("noteDueDate").value = "";
+document.getElementById("noteDueDate").style.display = "none";
+alert("Note posted!");
     } catch (err) {
       console.error(err);
       alert("Failed to post. Check console.");
@@ -398,6 +411,10 @@ document.getElementById("saveSubject").addEventListener("click", function () {
         if (data.content) html += "<p>" + data.content + "</p>";
         if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
         if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
+        if (data.dueDate) {
+  const due = new Date(data.dueDate);
+  html += "<div class='note-due'>📅 Due: " + due.toLocaleString() + "</div>";
+}
         if (data.timestamp) {
           html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
         }
@@ -447,6 +464,33 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       }
     });
   }
+    // ---- Assignment due reminders (8 hours before) ----
+  const dueNotified = new Set();
+
+  function checkAssignmentDue() {
+    const { collection, onSnapshot } = window.fsFns;
+    onSnapshot(collection(window.db, "notes"), function (snapshot) {
+      const now = Date.now();
+      snapshot.forEach(function (doc) {
+        const data = doc.data();
+        if (!data.dueDate || data.category !== "Assignment") return;
+
+        const due = new Date(data.dueDate).getTime();
+        const diffHours = (due - now) / (1000 * 60 * 60);
+
+        const key = doc.id + "-8hr";
+        if (diffHours > 7 && diffHours <= 8 && !dueNotified.has(key)) {
+          dueNotified.add(key);
+          const msg = data.title + " — due in 8 hours!";
+          if (typeof showBanner === "function") showBanner("📚 Assignment Due Soon", msg);
+          if (typeof notify === "function") notify("📚 Assignment Due Soon", msg);
+        }
+      });
+    });
+  }
+
+  setInterval(checkAssignmentDue, 5 * 60 * 1000);
+  checkAssignmentDue();
 </script>
 
 </body>

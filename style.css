@@ -787,3 +787,20 @@ label {
   border-color: rgb(3, 47, 77);
   box-shadow: 0 0 6px rgba(3, 47, 77, 0.25);
 }
+#noteDueDate {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.note-due {
+  font-size: 13px;
+  color: #c0392b;
+  font-weight: bold;
+  margin: 6px 0;
+}
