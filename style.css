@@ -744,3 +744,18 @@ label {
   font-weight: bold;
   letter-spacing: 1px;
 }
+.search-notes {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.search-notes:focus {
+  outline: none;
+  border-color: rgb(3, 47, 77);
+  box-shadow: 0 0 6px rgba(3, 47, 77, 0.25);
+}

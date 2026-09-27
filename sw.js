@@ -1,10 +1,11 @@
-onst CACHE_NAME = "mysched-v2";
+const CACHE_NAME = "mysched-v3";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
-  "./LOGO.png"
+  "./LOGO.png",
+  "./manifest.json"
 ];
 
 // Install: cache all files
@@ -31,11 +32,28 @@ self.addEventListener("activate", function (event) {
   self.clients.claim();
 });
 
-// Fetch: serve from cache first, fallback to network
+// Fetch: network first, cache fallback (so updates arrive)
 self.addEventListener("fetch", function (event) {
+  // Only handle GET requests
+  if (event.request.method !== "GET") return;
+
+  // Skip Firebase and external requests (don't cache them)
+  const url = event.request.url;
+  if (!url.startsWith(self.location.origin)) return;
+
   event.respondWith(
-    caches.match(event.request).then(function (response) {
-      return response || fetch(event.request);
-    })
+    fetch(event.request)
+      .then(function (response) {
+        // Save fresh copy to cache
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) {
+          cache.put(event.request, clone);
+        });
+        return response;
+      })
+      .catch(function () {
+        // Offline → serve from cache
+        return caches.match(event.request);
+      })
   );
 });

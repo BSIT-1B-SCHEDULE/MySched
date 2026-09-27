@@ -16,13 +16,14 @@
     <ol>
       <li>Only post notes, activities, or assignments related to the subject.</li>
       <li>No bad words, spam, or inappropriate content.</li>
-      <li>Do not post any unuseful information(e.g.,talking nonsense,chatting only to make jokes).</li>
+      <li>Do not post any unuseful information (e.g., talking nonsense, chatting only to make jokes).</li>
       <li>Keep the class code to yourself — do not share outside BSIT 1B.</li>
-      <li>Thank You for your understanding.</li>
+      <li>Thank you for your understanding.</li>
     </ol>
     <button id="closeRules">Got it</button>
   </div>
 </div>
+
 <div class="page-background"></div>
 
 <div class="logo-header">
@@ -30,8 +31,9 @@
     <h1>BSIT 1B</h1>
     <p class="subtitle">Class Schedule</p>
 </div>
+
 <div class="motivation-quote">
-  <p> "No one gets left behind. We share, we learn, we succeed — together."</p>
+  <p>"No one gets left behind. We share, we learn, we succeed — together."</p>
   <span>— BSIT 1B</span>
 </div>
 
@@ -67,31 +69,25 @@ const scheduleData = {
         ["PC Troubleshooting", "4:00 PM - 5:30 PM"],
         ["Intro to Computing", "5:30 PM - 7:00 PM"]
     ],
-
     Tuesday: [
         ["Programming 1", "10:30 AM - 12:00 PM"],
         ["Mathematics in Modern World", "1:00 PM - 2:30 PM"],
         ["Arts Appreciation", "5:30 PM - 8:00 PM"]
     ],
-
     Wednesday: [
         ["Physical Education", "10:00 AM - 12:00 PM"],
         ["Operating System", "2:30 PM - 4:00 PM"],
         ["PC Troubleshooting", "4:00 PM - 5:30 PM"],
         ["Intro to Computing", "5:30 PM - 7:00 PM"]
     ],
-
     Thursday: [
         ["Programming 1", "10:30 AM - 12:00 PM"],
         ["Mathematics in Modern World", "1:00 PM - 2:30 PM"]
     ],
-
     Friday: [],
-
     Saturday: [
-        ["CWTS", "9:00 - 12:00 AM"],
-        ["ROTC", "9:00 AM - 12:00 AM"]
-        
+        ["CWTS", "9:00 AM - 12:00 PM"],
+        ["ROTC", "9:00 AM - 12:00 PM"]
     ]
 };
 
@@ -130,11 +126,9 @@ function showSchedule(day) {
 document.querySelectorAll(".day-btn").forEach(function (button) {
     button.addEventListener("click", function () {
         selectedDay = button.getAttribute("data-day");
-
         document.querySelectorAll(".day-btn").forEach(function (btn) {
             btn.classList.remove("active");
         });
-
         button.classList.add("active");
         showSchedule(selectedDay);
     });
@@ -169,6 +163,7 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 
 <!-- REMINDERS (script.js) -->
 <script src="script.js"></script>
+
 <!-- Firebase -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -197,26 +192,29 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     <button id="closePanel">✖</button>
   </div>
   <div class="side-panel-content">
+    <input type="text" id="searchNotes" placeholder="🔍 Search notes..." class="search-notes">
     <div id="notesList">
-  <div class="loading-spinner"></div>
-</div>
+      <div class="loading-spinner"></div>
+    </div>
     <div id="addNoteSection">
       <button id="unlockBtn">🔒 Enter Code to Post</button>
       <div id="noteForm" style="display:none;">
-  <input type="text" id="posterName" placeholder="Your name (e.g. Juan D.)">
-  <select id="noteCategory">
-    <option value="Activity">📌 Activity</option>
-    <option value="Assignment">📚 Assignment</option>
-    <option value="Notes">📝 Notes</option>
-    <option value="Announcement">📢 Announcement</option>
-  </select>
-  <input type="text" id="noteTitle" placeholder="Title">
-  <textarea id="noteContent" placeholder="Type your note..."></textarea>
-  <input type="text" id="noteLink" placeholder="Optional link">
-  <button id="submitNote">Post Note</button>
-</div>
+        <input type="text" id="posterName" placeholder="Your name (e.g. Juan D.)">
+        <select id="noteCategory">
+          <option value="Activity">📌 Activity</option>
+          <option value="Assignment">📚 Assignment</option>
+          <option value="Notes">📝 Notes</option>
+          <option value="Announcement">📢 Announcement</option>
+        </select>
+        <input type="text" id="noteTitle" placeholder="Title">
+        <textarea id="noteContent" placeholder="Type your note..."></textarea>
+        <input type="text" id="noteLink" placeholder="Optional link">
+        <button id="submitNote">Post Note</button>
+      </div>
     </div>
   </div>
+</div>
+
 <script>
   // Rules popup
   if (localStorage.getItem("bsit_rules_seen") === "yes") {
@@ -231,6 +229,7 @@ document.getElementById("saveSubject").addEventListener("click", function () {
   const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
   const ADMIN_CODE = "ALEXIS-MASTER-2026";
   let currentSubject = "";
+
   // Open panel when a subject card is clicked
   document.addEventListener("click", function (e) {
     const card = e.target.closest(".subject-card");
@@ -241,7 +240,7 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     }
   });
 
- function openPanel(subjectName) {
+  function openPanel(subjectName) {
     currentSubject = subjectName;
     document.getElementById("panelSubjectName").textContent = subjectName;
     document.getElementById("sidePanel").classList.add("open");
@@ -254,26 +253,37 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       document.getElementById("noteForm").style.display = "none";
     }
 
+    // Admin unlock: double-click the subject title in the panel header
+    document.getElementById("panelSubjectName").ondblclick = function () {
+      const adminCode = prompt("Enter admin code:");
+      if (adminCode === ADMIN_CODE) {
+        localStorage.setItem("bsit_admin", "yes");
+        alert("Admin mode enabled. Refresh the page.");
+        location.reload();
+      } else if (adminCode !== null) {
+        alert("Wrong admin code.");
+      }
+    };
+
     loadNotes();
   }
-  
 
   document.getElementById("closePanel").onclick = function () {
     document.getElementById("sidePanel").classList.remove("open");
   };
 
   document.getElementById("unlockBtn").onclick = function () {
-  const code = prompt("Enter the class code to post:");
-  if (code === SECRET_CODE) {
-    localStorage.setItem("bsit_unlocked", "yes");
-    document.getElementById("unlockBtn").style.display = "none";
-    document.getElementById("noteForm").style.display = "block";
-  } else if (code !== null) {
-    alert("Wrong code.");
-  }
-};
+    const code = prompt("Enter the class code to post:");
+    if (code === SECRET_CODE) {
+      localStorage.setItem("bsit_unlocked", "yes");
+      document.getElementById("unlockBtn").style.display = "none";
+      document.getElementById("noteForm").style.display = "block";
+    } else if (code !== null) {
+      alert("Wrong code.");
+    }
+  };
 
- document.getElementById("submitNote").onclick = async function () {
+  document.getElementById("submitNote").onclick = async function () {
     const poster = document.getElementById("posterName").value.trim();
     const category = document.getElementById("noteCategory").value;
     const title = document.getElementById("noteTitle").value.trim();
@@ -286,25 +296,30 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     const { collection, addDoc, serverTimestamp } = window.fsFns;
 
     try {
-  await addDoc(collection(window.db, "notes"), {
-    subject: currentSubject,
-    poster: poster,
-    category: category,
-    title: title,
-    content: content,
-    link: link,
-    timestamp: serverTimestamp()
-  });
-    document.getElementById("posterName").value = "";
-document.getElementById("noteTitle").value = "";
-document.getElementById("noteContent").value = "";
-document.getElementById("noteLink").value = "";
-alert("Note posted!");
+      await addDoc(collection(window.db, "notes"), {
+        subject: currentSubject,
+        poster: poster,
+        category: category,
+        title: title,
+        content: content,
+        link: link,
+        timestamp: serverTimestamp()
+      });
+      document.getElementById("posterName").value = "";
+      document.getElementById("noteTitle").value = "";
+      document.getElementById("noteContent").value = "";
+      document.getElementById("noteLink").value = "";
+      alert("Note posted!");
     } catch (err) {
       console.error(err);
       alert("Failed to post. Check console.");
     }
   };
+
+  // Re-run notes when search text changes
+  document.getElementById("searchNotes").addEventListener("input", function () {
+    loadNotes();
+  });
 
   function loadNotes() {
     const { collection, onSnapshot, query, orderBy } = window.fsFns;
@@ -313,54 +328,72 @@ alert("Note posted!");
 
     const q = query(collection(window.db, "notes"), orderBy("timestamp", "desc"));
 
-   if (localStorage.getItem("bsit_admin") === "yes") {
-  html += '<button class="delete-note" data-id="' + doc.id + '">🗑 Delete</button>';
-}
-div.innerHTML = html;
-notesDiv.appendChild(div);
+    onSnapshot(q, function (snapshot) {
+      notesDiv.innerHTML = "";
+      let found = false;
 
-const delBtn = div.querySelector(".delete-note");
-if (delBtn) {
-  delBtn.onclick = async function () {
-    if (!confirm("Delete this note permanently?")) return;
-    try {
-      const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-      await deleteDoc(doc(window.db, "notes", delBtn.getAttribute("data-id")));
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete.");
-    }
-  };
-}
+      const searchTerm = (document.getElementById("searchNotes").value || "").toLowerCase().trim();
 
       snapshot.forEach(function (doc) {
         const data = doc.data();
         if (data.subject !== currentSubject) return;
+
+        // Apply search filter
+        if (searchTerm) {
+          const haystack = (
+            (data.title || "") + " " +
+            (data.content || "") + " " +
+            (data.poster || "") + " " +
+            (data.link || "")
+          ).toLowerCase();
+          if (!haystack.includes(searchTerm)) return;
+        }
+
         found = true;
 
         const div = document.createElement("div");
         div.className = "note-item";
 
         let html = "";
-if (data.category) {
-  html += '<span class="note-category cat-' + data.category.toLowerCase() + '">' + data.category + '</span>';
-}
-html += "<h4>" + data.title + "</h4>";
-if (data.content) html += "<p>" + data.content + "</p>";
-if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
-if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
-if (data.timestamp) {
-  html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
-}
-div.innerHTML = html;
-notesDiv.appendChild(div);
+        if (data.category) {
+          html += '<span class="note-category cat-' + data.category.toLowerCase() + '">' + data.category + '</span>';
+        }
+        html += "<h4>" + data.title + "</h4>";
+        if (data.content) html += "<p>" + data.content + "</p>";
+        if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
+        if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
+        if (data.timestamp) {
+          html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
+        }
+
+        // Admin delete button
+        if (localStorage.getItem("bsit_admin") === "yes") {
+          html += '<button class="delete-note" data-id="' + doc.id + '">🗑 Delete</button>';
+        }
+
+        div.innerHTML = html;
+        notesDiv.appendChild(div);
+
+        const delBtn = div.querySelector(".delete-note");
+        if (delBtn) {
+          delBtn.onclick = async function () {
+            if (!confirm("Delete this note permanently?")) return;
+            try {
+              const mod = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+              await mod.deleteDoc(mod.doc(window.db, "notes", delBtn.getAttribute("data-id")));
+            } catch (err) {
+              console.error(err);
+              alert("Failed to delete.");
+            }
+          };
+        }
       });
 
       if (!found) {
-  notesDiv.innerHTML = '<div class="empty-state">📭<br><strong>No notes yet</strong><br><small>Be the first to post for this subject!</small></div>';
-}
-    };
-  
+        notesDiv.innerHTML = '<div class="empty-state">📭<br><strong>No notes yet</strong><br><small>Be the first to post for this subject!</small></div>';
+      }
+    });
+  }
 </script>
 
 </body>
