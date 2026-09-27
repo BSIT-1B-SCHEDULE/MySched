@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Class Schedule</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(132, 177, 216);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select {
+            padding: 8px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        h2 {
+            background-color: rgb(156, 181, 198);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        p {
+            background-color: rgb(213, 216, 217);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+    </style>
+    
+
+</head>
+
+<body>
+
+<div class="page-background"></div>
+
+<div class="logo-header">
+    <img src="LOGO.png" alt="BSIT 1B Logo">
+    <h1>BSIT 1B</h1>
+    <p class="subtitle">Class Schedule</p>
+</div>
+
+<label for="day"></label>
+
+    <div class="day-buttons">
+    <button class="day-btn" data-day="Monday">Monday</button>
+    <button class="day-btn" data-day="Tuesday">Tuesday</button>
+    <button class="day-btn" data-day="Wednesday">Wednesday</button>
+    <button class="day-btn" data-day="Thursday">Thursday</button>
+    <button class="day-btn" data-day="Friday">Friday</button>
+</div>
+
+    <div id="schedule"></div>
+    <button id="addSubject">➕ Add Subject</button>
+    <div id="addForm" style="display: none;">
+    <input type="text" id="subjectName" placeholder="Subject name">
+    <input type="text" id="subjectTime" placeholder="Class time">
+
+    <button id="saveSubject">Save Subject</button>
+</div>
+
+    <script>
+
+
+const schedule = document.getElementById("schedule");
+
+const scheduleData = {
+    Monday: [
+        ["Life and Works of Rizal", "10:00 AM - 12:00 PM"],
+        ["Operating System", "2:30 PM - 4:00 PM"],
+        ["PC Troubleshooting", "4:00 PM - 5:30 PM"],
+        ["Intro to Computing", "5:30 PM - 7:00 PM"]
+    ],
+
+    Tuesday: [
+        ["Programming 1", "10:30 AM - 12:00 PM"],
+        ["Mathematics in Modern World", "1:00 PM - 2:30 PM"],
+        ["Arts Appreciation", "5:30 PM - 8:00 PM"]
+    ],
+
+    Wednesday: [
+        ["Physical Education", "10:00 AM - 12:00 PM"],
+        ["Operating System", "2:30 PM - 4:00 PM"],
+        ["PC Troubleshooting", "4:00 PM - 5:30 PM"],
+        ["Intro to Computing", "5:30 PM - 7:00 PM"]
+    ],
+
+    Thursday: [
+        ["Programming 1", "10:30 AM - 12:00 PM"],
+        ["Mathematics in Modern World", "1:00 PM - 2:30 PM"]
+    ],
+
+    Friday: []
+};
+
+
+let selectedDay = "";
+
+function showSchedule(selectedDay) {
+
+    if (selectedDay === "") {
+        schedule.innerHTML = "";
+        return;
+    }
+
+    let subjects = scheduleData[selectedDay];
+
+    if (subjects.length === 0) {
+        schedule.innerHTML = `
+            <h2>${selectedDay}</h2>
+            <p>No Classes</p>
+        `;
+        return;
+    }
+
+  let output = `<h2>${selectedDay}</h2>`;
+
+    subjects.forEach(function(subject, index) {
+        output += `
+            <div class="subject-card">
+                <div class="subject-name">
+                    ${index + 1}. ${subject[0]}
+                </div>
+                <div class="subject-time">
+                    🕐 ${subject[1]}
+                </div>
+            </div>
+        `;
+    });
+
+    schedule.innerHTML = output;
+
+    schedule.innerHTML = output;
+    }
+
+
+
+document.querySelectorAll(".day-btn").forEach(function(button) {
+    button.addEventListener("click", function() {
+
+        selectedDay = button.getAttribute("data-day");
+
+        document.querySelectorAll(".day-btn").forEach(function(btn) {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        showSchedule(selectedDay);
+    });
+});
+
+
+document.getElementById("addSubject").addEventListener("click", function() {
+
+    if (selectedDay === "") {
+        alert("Please select a day first.");
+        return;
+    }
+
+    document.getElementById("addForm").style.display = "block";
+});
+     
+document.getElementById("saveSubject").addEventListener("click", function() {
+
+    const subject = document.getElementById("subjectName").value;
+    const time = document.getElementById("subjectTime").value;
+
+    if (subject === "" || time === "") {
+        alert("Please enter the subject and class time.");
+        return;
+    }
+
+    scheduleData[selectedDay].push([subject, time]);
+
+    document.getElementById("subjectName").value = "";
+    document.getElementById("subjectTime").value = "";
+
+    document.getElementById("addForm").style.display = "none";
+
+   showSchedule(selectedDay);
+});
+
+    </script>
+   <script src="script.js"></script>
+<script>
+alert("INDEX IS CONNECTED!");
+</script>
+</body>
+</html

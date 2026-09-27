@@ -1,0 +1,473 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(132, 177, 216);
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    color: rgb(3, 47, 77);
+    margin-bottom: 10px;
+}
+
+p.subtitle {
+    text-align: center;
+    color: rgb(3, 47, 77);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: white;
+}
+
+h2 {
+    background-color: rgba(3, 47, 77, 0.9);
+    color: rgb(5, 19, 84);
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+
+    text-shadow: 0 0 8px rgb(6, 2, 32);
+}
+
+
+
+p:not(.subtitle) {
+    background-color: rgb(3, 36, 47);
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 8px;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(3, 47, 77);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background-color: white;
+}
+p:not(.subtitle) {
+    background-color: rgb(213, 216, 217);
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+#addForm {
+    margin-top: 15px;
+}
+
+#addForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+#saveSubject {
+    background-color: rgb(40, 120, 70);
+    margin-top: 5px;
+}
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    select,
+    button,
+    #addForm input {
+        font-size: 16px;
+    }
+}
+h2 {
+    background-color: rgb(3, 47, 77);
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+body {
+    max-width: 600px;
+    margin: 0 auto;
+}
+p:not(.subtitle) {
+    font-size: 16px;
+    line-height: 1.5;
+}
+#schedule p {
+    text-align: center;
+}
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.school-name {
+    text-align: center;
+    font-weight: bold;
+    color: rgb(3, 47, 77);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin: 5px 0;
+}
+#schedule {
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+/* BSIT 1B image behind the schedule */
+#schedule::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("LOGO.png");
+    background-size: 300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.10;
+    z-index: 0;
+}
+
+/* Keep schedule text above the image */
+#schedule > * {
+    position: relative;
+    z-index: 1;
+}
+
+
+
+/* Make the background image faint */
+#schedule {
+    background-color: rgba(255, 255, 255, 0.8);
+    background-blend-mode: lighten;
+}
+body {
+    position: relative;
+    background-color: white;
+}
+
+/* Full-page background image */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    
+    background-image: url("LOGO.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    opacity: 0.10;
+    z-index: -1;
+}
+select {
+    width: 100%;
+    padding: 15px 18px;
+
+    background: rgba(255, 255, 255, 0.92);
+    color: rgb(3, 47, 77);
+
+    border: 2px solid rgba(3, 47, 77, 0.35);
+    border-radius: 12px;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    outline: none;
+
+    box-shadow: 0 4px 12px rgba(3, 47, 77, 0.15);
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+select:focus {
+    border-color: rgb(3, 47, 77);
+
+    box-shadow:
+        0 0 8px rgba(3, 47, 77, 0.35),
+        0 5px 15px rgba(3, 47, 77, 0.18);
+}
+select:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 16px rgba(3, 47, 77, 0.22);
+}
+select option {
+    background-color: white;
+    color: rgb(3, 47, 77);
+    font-weight: 600;
+    padding: 12px;
+}
+select option[value="Monday"] {
+    color: #072578;
+}
+
+select option[value="Tuesday"] {
+    color: #b860a9;
+}
+
+select option[value="Wednesday"] {
+    color: #2b0966;
+}
+
+select option[value="Thursday"] {
+    color: #274504;
+}
+
+select option[value="Friday"] {
+    color: #be123d7e;
+}
+.day-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.day-btn {
+    width: 100%;
+    padding: 13px 8px;
+
+    background: rgba(4, 20, 70, 0.9);
+    color: rgb(3, 47, 77);
+
+    border: 2px solid rgba(3, 47, 77, 0.25);
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+
+
+.day-btn.active {
+    background: rgb(3, 47, 77);
+    color: rgb(15, 5, 91);
+    border-color: rgb(3, 47, 77);
+    box-shadow: 0 2px 5px rgba(3, 47, 77, 0.25);
+}
+.day-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.day-btn {
+    width: 100%;
+    padding: 13px 8px;
+   background: rgb(186, 196, 202);
+    color: rgb(3, 47, 77);
+    border: 2px solid rgba(3, 47, 77, 0.25);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day-btn:hover {
+    background: rgb(3, 47, 77);
+    color: rgb(5, 26, 71);
+}
+
+.day-btn.active {
+    background: rgb(3, 47, 77);
+    color: rgb(220, 225, 230);
+    border-color: rgb(3, 47, 77);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#schedule p {
+    background: rgba(255, 255, 255, 0.92);
+    color: rgb(3, 47, 77);
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border-left: 5px solid rgb(3, 47, 77);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+}
+.subject-card {
+    background: rgba(255, 255, 255, 0.94);
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border-left: 5px solid rgb(3, 47, 77);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.subject-name {
+    color: rgb(3, 47, 77);
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    letter-spacing: 0.2px;
+}
+
+
+.subject-time {
+    color: rgb(80, 90, 100);
+    font-size: 14px;
+}
+#addSubject {
+    margin-top: 20px;
+    background-color: rgb(3, 47, 77);
+}
+
+#addForm {
+    background: rgba(255, 255, 255, 0.94);
+    padding: 18px;
+    margin-top: 12px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+#addForm input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#saveSubject {
+    background-color: rgb(40, 120, 70);
+    margin-top: 0;
+}
+.logo-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-header img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.logo-header h1 {
+    margin: 5px 0;
+}
+
+.logo-header .subtitle {
+    margin: 0;
+}
+body {
+    position: relative;
+    background-color: white;
+}
+body {
+    position: relative;
+    background-color: rgb(132, 177, 216);
+}
+.logo-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: rgb(3, 47, 77);
+    margin: 8px 0 4px;
+}
+
+.logo-header .subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(55, 75, 90);
+    margin: 0;
+}
+
+.schedule-label {
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: rgb(3, 47, 77);
+    margin-top: 8px;
+}
+.subtitle {
+    font-family: "Georgia", serif;
+    font-size: 25px;
+    font-style: italic;
+    letter-spacing: 1px;
+    color: rgb(3, 47, 77);
+}
+label {
+    display: block;
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    color: rgb(3, 47, 77);
+    margin-bottom: 12px;
+}
+.notif-banner {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #1e293b;
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
