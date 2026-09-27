@@ -8,7 +8,21 @@
 </head>
 
 <body>
-
+<!-- RULES POPUP -->
+<div id="rulesPopup" class="rules-popup">
+  <div class="rules-box">
+    <h2>Welcome my fellow BSIT 1B Students!</h2>
+    <p>Please read and follow these rules before using:</p>
+    <ol>
+      <li>Only post notes, activities, or assignments related to the subject.</li>
+      <li>No bad words, spam, or inappropriate content.</li>
+      <li>Do not post other people's private info.</li>
+      <li>Keep the class code to yourself — do not share outside BSIT 1B.</li>
+      <li>Breaking these rules will be deleted by the admin.</li>
+    </ol>
+    <button id="closeRules">Got it</button>
+  </div>
+</div>
 <div class="page-background"></div>
 
 <div class="logo-header">
@@ -198,11 +212,20 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 </div>
     </div>
   </div>
-</div>
 <script>
-  const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
-  let currentSubject = "";
+  // Rules popup
+  if (localStorage.getItem("bsit_rules_seen") === "yes") {
+    document.getElementById("rulesPopup").style.display = "none";
+  }
 
+  document.getElementById("closeRules").onclick = function () {
+    localStorage.setItem("bsit_rules_seen", "yes");
+    document.getElementById("rulesPopup").style.display = "none";
+  };
+
+  const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
+  const ADMIN_CODE = "ALEXIS-MASTER-2026";
+  let currentSubject = "";
   // Open panel when a subject card is clicked
   document.addEventListener("click", function (e) {
     const card = e.target.closest(".subject-card");
@@ -285,9 +308,25 @@ alert("Note posted!");
 
     const q = query(collection(window.db, "notes"), orderBy("timestamp", "desc"));
 
-    onSnapshot(q, function (snapshot) {
-      notesDiv.innerHTML = "";
-      let found = false;
+   if (localStorage.getItem("bsit_admin") === "yes") {
+  html += '<button class="delete-note" data-id="' + doc.id + '">🗑 Delete</button>';
+}
+div.innerHTML = html;
+notesDiv.appendChild(div);
+
+const delBtn = div.querySelector(".delete-note");
+if (delBtn) {
+  delBtn.onclick = async function () {
+    if (!confirm("Delete this note permanently?")) return;
+    try {
+      const { doc, deleteDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+      await deleteDoc(doc(window.db, "notes", delBtn.getAttribute("data-id")));
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete.");
+    }
+  };
+}
 
       snapshot.forEach(function (doc) {
         const data = doc.data();
@@ -315,8 +354,8 @@ notesDiv.appendChild(div);
       if (!found) {
   notesDiv.innerHTML = '<div class="empty-state">📭<br><strong>No notes yet</strong><br><small>Be the first to post for this subject!</small></div>';
 }
-    });
-  }
+    };
+  
 </script>
 
 </body>
