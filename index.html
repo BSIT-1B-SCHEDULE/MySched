@@ -245,7 +245,16 @@ document.getElementById("saveSubject").addEventListener("click", function () {
   document.getElementById("closeRules").onclick = function () {
     localStorage.setItem("bsit_rules_seen", "yes");
     document.getElementById("rulesPopup").style.display = "none";
-  };
+  };// Show due date field only for Assignment category
+document.getElementById("noteCategory").addEventListener("change", function () {
+  const dueInput = document.getElementById("noteDueDate");
+  if (this.value === "Assignment") {
+    dueInput.style.display = "block";
+  } else {
+    dueInput.style.display = "none";
+    dueInput.value = "";
+  }
+});
 
   const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
   const ADMIN_CODE = "ALEXIS-MASTER-2026";
