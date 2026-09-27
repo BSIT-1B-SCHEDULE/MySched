@@ -189,7 +189,10 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 <div id="sidePanel" class="side-panel">
   <div class="side-panel-header">
     <h3 id="panelSubjectName">Subject</h3>
-    <button id="closePanel">✖</button>
+    <div>
+      <button id="adminBtn" title="Admin login">🔑</button>
+      <button id="closePanel">✖</button>
+    </div>
   </div>
   <div class="side-panel-content">
     <div class="filter-row">
@@ -262,18 +265,6 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       document.getElementById("noteForm").style.display = "none";
     }
 
-    // Admin unlock: double-click the subject title in the panel header
-    document.getElementById("panelSubjectName").ondblclick = function () {
-      const adminCode = prompt("Enter admin code:");
-      if (adminCode === ADMIN_CODE) {
-        localStorage.setItem("bsit_admin", "yes");
-        alert("Admin mode enabled. Refresh the page.");
-        location.reload();
-      } else if (adminCode !== null) {
-        alert("Wrong admin code.");
-      }
-    };
-
     loadNotes();
   }
 
@@ -289,6 +280,24 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       document.getElementById("noteForm").style.display = "block";
     } else if (code !== null) {
       alert("Wrong code.");
+    }
+  };
+
+  // Admin button
+  document.getElementById("adminBtn").onclick = function () {
+    const adminCode = prompt("Enter admin code (leave empty to log out):");
+    if (adminCode === ADMIN_CODE) {
+      localStorage.setItem("bsit_admin", "yes");
+      alert("Admin mode ON. Refresh to see Pin/Delete buttons.");
+      location.reload();
+    } else if (adminCode === null) {
+      // cancelled
+    } else if (adminCode === "") {
+      localStorage.removeItem("bsit_admin");
+      alert("Admin mode OFF.");
+      location.reload();
+    } else {
+      alert("Wrong admin code.");
     }
   };
 
@@ -325,7 +334,6 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     }
   };
 
-  // Re-run notes when search text changes
   document.getElementById("searchNotes").addEventListener("input", function () {
     loadNotes();
   });
@@ -348,11 +356,9 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       const searchTerm = (document.getElementById("searchNotes").value || "").toLowerCase().trim();
       const filterCat = document.getElementById("filterCategory").value;
 
-      // Collect docs into array
       const docsArray = [];
       snapshot.forEach(function (doc) { docsArray.push(doc); });
 
-      // Sort: pinned first, then newest
       docsArray.sort(function (a, b) {
         const ap = a.data().pinned ? 1 : 0;
         const bp = b.data().pinned ? 1 : 0;
@@ -366,7 +372,6 @@ document.getElementById("saveSubject").addEventListener("click", function () {
         const data = doc.data();
         if (data.subject !== currentSubject) return;
 
-        // Apply search filter
         if (searchTerm) {
           const haystack = (
             (data.title || "") + " " +
@@ -377,7 +382,6 @@ document.getElementById("saveSubject").addEventListener("click", function () {
           if (!haystack.includes(searchTerm)) return;
         }
 
-        // Apply category filter
         if (filterCat && data.category !== filterCat) return;
 
         found = true;
@@ -398,7 +402,6 @@ document.getElementById("saveSubject").addEventListener("click", function () {
           html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
         }
 
-        // Admin buttons (pin + delete)
         if (localStorage.getItem("bsit_admin") === "yes") {
           const pinLabel = data.pinned ? "📌 Unpin" : "📌 Pin";
           html += '<button class="pin-note" data-id="' + doc.id + '" data-pinned="' + (data.pinned ? "yes" : "no") + '">' + pinLabel + '</button>';
