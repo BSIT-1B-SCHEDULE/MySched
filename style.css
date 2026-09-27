@@ -759,3 +759,31 @@ label {
   border-color: rgb(3, 47, 77);
   box-shadow: 0 0 6px rgba(3, 47, 77, 0.25);
 }
+.filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.filter-row .search-notes {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.filter-category {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 13px;
+  background: #fff;
+  color: rgb(3, 47, 77);
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.filter-category:focus {
+  outline: none;
+  border-color: rgb(3, 47, 77);
+  box-shadow: 0 0 6px rgba(3, 47, 77, 0.25);
+}

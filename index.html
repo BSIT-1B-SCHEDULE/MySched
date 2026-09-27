@@ -192,7 +192,16 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     <button id="closePanel">✖</button>
   </div>
   <div class="side-panel-content">
-    <input type="text" id="searchNotes" placeholder="🔍 Search notes..." class="search-notes">
+    <div class="filter-row">
+  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." class="search-notes">
+  <select id="filterCategory" class="filter-category">
+    <option value="">All</option>
+    <option value="Activity">📌 Activity</option>
+    <option value="Assignment">📚 Assignment</option>
+    <option value="Notes">📝 Notes</option>
+    <option value="Announcement">📢 Announcement</option>
+  </select>
+</div>
     <div id="notesList">
       <div class="loading-spinner"></div>
     </div>
@@ -333,21 +342,24 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       let found = false;
 
       const searchTerm = (document.getElementById("searchNotes").value || "").toLowerCase().trim();
-
+const filterCat = document.getElementById("filterCategory").value;
       snapshot.forEach(function (doc) {
         const data = doc.data();
         if (data.subject !== currentSubject) return;
 
         // Apply search filter
-        if (searchTerm) {
-          const haystack = (
-            (data.title || "") + " " +
-            (data.content || "") + " " +
-            (data.poster || "") + " " +
-            (data.link || "")
-          ).toLowerCase();
-          if (!haystack.includes(searchTerm)) return;
-        }
+       if (searchTerm) {
+  const haystack = (
+    (data.title || "") + " " +
+    (data.content || "") + " " +
+    (data.poster || "") + " " +
+    (data.link || "")
+  ).toLowerCase();
+  if (!haystack.includes(searchTerm)) return;
+}
+
+// Apply category filter               ← OUTSIDE the search block
+if (filterCat && data.category !== filterCat) return;
 
         found = true;
 
