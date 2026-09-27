@@ -717,3 +717,30 @@ label {
   font-weight: bold;
   cursor: pointer;
 }
+.motivation-quote {
+  background: linear-gradient(135deg, rgba(3, 47, 77, 0.08), rgba(3, 47, 77, 0.15));
+  border-left: 5px solid rgb(3, 47, 77);
+  padding: 14px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.motivation-quote p {
+  background: none;
+  color: rgb(3, 47, 77);
+  font-style: italic;
+  font-size: 15px;
+  margin: 0 0 6px;
+  padding: 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.motivation-quote span {
+  display: block;
+  color: rgb(80, 90, 100);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
