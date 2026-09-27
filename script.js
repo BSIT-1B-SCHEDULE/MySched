@@ -24,8 +24,15 @@ const schedule = {
         ["Mathematics in Modern World", "1:00 PM"]
     ],
 
-    Friday: []
+    Friday: [ ],
+
+    Saturday: [
+        ["CWTS" ]
+        ["ROTC" ]
+    ]
 };
+
+;
 
 function convertToMinutes(time) {
     const [timePart, period] = time.split(" ");
