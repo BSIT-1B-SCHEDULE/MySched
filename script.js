@@ -1,5 +1,5 @@
 // ---- Class reminders ----
-const reminderSchedule = { 
+const reminderSchedule = {
     Monday: [
         ["Life and Works of Rizal", "10:00 AM"],
         ["Operating System", "2:30 PM"],
@@ -25,7 +25,6 @@ const reminderSchedule = {
     Saturday: [
         ["CWTS", "9:00 AM"],
         ["ROTC", "9:00 AM"]
-       
     ]
 };
 
@@ -76,14 +75,12 @@ function checkClassReminder() {
         const minutesUntil = classStart - currentMinutes;
         const key = today + "-" + subjectName + "-" + startTime;
 
-        // 30-minute warning
         if (minutesUntil <= 30 && minutesUntil > 29 && !alreadyNotified.has(key + "-30")) {
             alreadyNotified.add(key + "-30");
             showBanner("🕐 Upcoming Class", subjectName + " starts in 30 minutes.");
             notify("🕐 Class in 30 min", subjectName + " starts in 30 minutes.");
         }
 
-        // 1-minute warning
         if (minutesUntil <= 1 && minutesUntil > 0 && !alreadyNotified.has(key + "-1")) {
             alreadyNotified.add(key + "-1");
             showBanner("⚡ Starting Now", subjectName + " starts in 1 minute!");

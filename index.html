@@ -58,7 +58,6 @@
     <button id="saveSubject">Save Subject</button>
 </div>
 
-<!-- MAIN SCRIPT -->
 <script>
 const schedule = document.getElementById("schedule");
 
@@ -161,7 +160,7 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 });
 </script>
 
-<!-- REMINDERS (script.js) -->
+<!-- REMINDERS -->
 <script src="script.js"></script>
 
 <!-- Firebase -->
@@ -221,23 +220,14 @@ document.getElementById("saveSubject").addEventListener("click", function () {
         <input type="text" id="noteTitle" placeholder="Title">
         <textarea id="noteContent" placeholder="Type your note..."></textarea>
         <input type="text" id="noteLink" placeholder="Optional link">
-<input type="datetime-local" id="noteDueDate" style="display:none;">
-<button id="submitNote">Post Note</button>
+        <input type="datetime-local" id="noteDueDate" style="display:none;">
+        <button id="submitNote">Post Note</button>
       </div>
     </div>
   </div>
 </div>
+
 <script>
-    document.getElementById("noteCategory").addEventListener("change", function () {
-  const dueInput = document.getElementById("noteDueDate");
-  if (this.value === "Assignment") {
-    dueInput.style.display = "block";
-  } else {
-    dueInput.style.display = "none";
-    dueInput.value = "";
-  }
-});
-  // Rules popup
   if (localStorage.getItem("bsit_rules_seen") === "yes") {
     document.getElementById("rulesPopup").style.display = "none";
   }
@@ -246,22 +236,21 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     localStorage.setItem("bsit_rules_seen", "yes");
     document.getElementById("rulesPopup").style.display = "none";
   };
-  // Show due date field only for Assignment category
-document.getElementById("noteCategory").addEventListener("change", function () {
-  const dueInput = document.getElementById("noteDueDate");
-  if (this.value === "Assignment") {
-    dueInput.style.display = "block";
-  } else {
-    dueInput.style.display = "none";
-    dueInput.value = "";
-  }
-});
+
+  document.getElementById("noteCategory").addEventListener("change", function () {
+    const dueInput = document.getElementById("noteDueDate");
+    if (this.value === "Assignment") {
+      dueInput.style.display = "block";
+    } else {
+      dueInput.style.display = "none";
+      dueInput.value = "";
+    }
+  });
 
   const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
   const ADMIN_CODE = "ALEXIS-MASTER-2026";
   let currentSubject = "";
 
-  // Open panel when a subject card is clicked
   document.addEventListener("click", function (e) {
     const card = e.target.closest(".subject-card");
     if (card) {
@@ -302,7 +291,6 @@ document.getElementById("noteCategory").addEventListener("change", function () {
     }
   };
 
-  // Admin button
   document.getElementById("adminBtn").onclick = function () {
     const adminCode = prompt("Enter admin code (leave empty to log out):");
     if (adminCode === ADMIN_CODE) {
@@ -310,7 +298,6 @@ document.getElementById("noteCategory").addEventListener("change", function () {
       alert("Admin mode ON. Refresh to see Pin/Delete buttons.");
       location.reload();
     } else if (adminCode === null) {
-      // cancelled
     } else if (adminCode === "") {
       localStorage.removeItem("bsit_admin");
       alert("Admin mode OFF.");
@@ -335,22 +322,22 @@ document.getElementById("noteCategory").addEventListener("change", function () {
 
     try {
       await addDoc(collection(window.db, "notes"), {
-  subject: currentSubject,
-  poster: poster,
-  category: category,
-  title: title,
-  content: content,
-  link: link,
-  dueDate: dueDate || null,
-  timestamp: serverTimestamp()
-});
- document.getElementById("posterName").value = "";
-document.getElementById("noteTitle").value = "";
-document.getElementById("noteContent").value = "";
-document.getElementById("noteLink").value = "";
-document.getElementById("noteDueDate").value = "";
-document.getElementById("noteDueDate").style.display = "none";
-alert("Note posted!");
+        subject: currentSubject,
+        poster: poster,
+        category: category,
+        title: title,
+        content: content,
+        link: link,
+        dueDate: dueDate || null,
+        timestamp: serverTimestamp()
+      });
+      document.getElementById("posterName").value = "";
+      document.getElementById("noteTitle").value = "";
+      document.getElementById("noteContent").value = "";
+      document.getElementById("noteLink").value = "";
+      document.getElementById("noteDueDate").value = "";
+      document.getElementById("noteDueDate").style.display = "none";
+      alert("Note posted!");
     } catch (err) {
       console.error(err);
       alert("Failed to post. Check console.");
@@ -422,9 +409,9 @@ alert("Note posted!");
         if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
         if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
         if (data.dueDate) {
-  const due = new Date(data.dueDate);
-  html += "<div class='note-due'>📅 Due: " + due.toLocaleString() + "</div>";
-}
+          const due = new Date(data.dueDate);
+          html += "<div class='note-due'>📅 Due: " + due.toLocaleString() + "</div>";
+        }
         if (data.timestamp) {
           html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
         }
@@ -469,12 +456,13 @@ alert("Note posted!");
           };
         }
       });
+
       if (!found) {
         notesDiv.innerHTML = '<div class="empty-state">📭<br><strong>No notes yet</strong><br><small>Be the first to post for this subject!</small></div>';
       }
     });
   }
-    // ---- Assignment due reminders (8 hours before) ----
+
   const dueNotified = new Set();
 
   function checkAssignmentDue() {
@@ -485,10 +473,8 @@ alert("Note posted!");
       snapshot.forEach(function (doc) {
         const data = doc.data();
         if (!data.dueDate || data.category !== "Assignment") return;
-
         const due = new Date(data.dueDate).getTime();
         const diffHours = (due - now) / (1000 * 60 * 60);
-
         const key = doc.id + "-8hr";
         if (diffHours > 7 && diffHours <= 8 && !dueNotified.has(key)) {
           dueNotified.add(key);
@@ -500,11 +486,10 @@ alert("Note posted!");
     });
   }
 
- // Wait for Firebase to load, then start reminders
-setTimeout(function () {
-  checkAssignmentDue();
-  setInterval(checkAssignmentDue, 5 * 60 * 1000);
-}, 3000);
+  setTimeout(function () {
+    checkAssignmentDue();
+    setInterval(checkAssignmentDue, 5 * 60 * 1000);
+  }, 3000);
 </script>
 
 </body>
