@@ -408,10 +408,11 @@ document.getElementById("saveSubject").addEventListener("click", function () {
         if (data.content) html += "<p>" + data.content + "</p>";
         if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
         if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
-        if (data.dueDate) {
-          const due = new Date(data.dueDate);
-          html += "<div class='note-due'>📅 Due: " + due.toLocaleString() + "</div>";
-        }
+       if (data.dueDate) {
+  const due = new Date(data.dueDate);
+  html += "<div class='note-due'>📅 Due: " + due.toLocaleString() + "</div>";
+  html += "<div class='note-countdown' data-due='" + data.dueDate + "'>⏳ Calculating...</div>";
+}
         if (data.timestamp) {
           html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
         }
@@ -490,6 +491,37 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     checkAssignmentDue();
     setInterval(checkAssignmentDue, 5 * 60 * 1000);
   }, 3000);
+  // ---- Live countdown updater ----
+function updateCountdowns() {
+  const now = Date.now();
+  document.querySelectorAll(".note-countdown").forEach(function (el) {
+    const dueMs = new Date(el.getAttribute("data-due")).getTime();
+    const diff = dueMs - now;
+
+    if (diff <= 0) {
+      el.textContent = "⛔ OVERDUE";
+      el.classList.add("overdue");
+      return;
+    }
+
+    el.classList.remove("overdue");
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    let text = "⏳ ";
+    if (days > 0) text += days + "d ";
+    if (days > 0 || hours > 0) text += hours + "h ";
+    text += mins + "m " + secs + "s left";
+
+    el.textContent = text;
+  });
+}
+
+setInterval(updateCountdowns, 1000);
+updateCountdowns();
 </script>
 
 </body>
