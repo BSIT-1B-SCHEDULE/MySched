@@ -193,15 +193,15 @@ document.getElementById("saveSubject").addEventListener("click", function () {
   </div>
   <div class="side-panel-content">
     <div class="filter-row">
-  <input type="text" id="searchNotes" placeholder="🔍 Search notes..." class="search-notes">
-  <select id="filterCategory" class="filter-category">
-    <option value="">All</option>
-    <option value="Activity">📌 Activity</option>
-    <option value="Assignment">📚 Assignment</option>
-    <option value="Notes">📝 Notes</option>
-    <option value="Announcement">📢 Announcement</option>
-  </select>
-</div>
+      <input type="text" id="searchNotes" placeholder="🔍 Search notes..." class="search-notes">
+      <select id="filterCategory" class="filter-category">
+        <option value="">All</option>
+        <option value="Activity">📌 Activity</option>
+        <option value="Assignment">📚 Assignment</option>
+        <option value="Notes">📝 Notes</option>
+        <option value="Announcement">📢 Announcement</option>
+      </select>
+    </div>
     <div id="notesList">
       <div class="loading-spinner"></div>
     </div>
@@ -330,6 +330,10 @@ document.getElementById("saveSubject").addEventListener("click", function () {
     loadNotes();
   });
 
+  document.getElementById("filterCategory").addEventListener("change", function () {
+    loadNotes();
+  });
+
   function loadNotes() {
     const { collection, onSnapshot, query, orderBy } = window.fsFns;
     const notesDiv = document.getElementById("notesList");
@@ -342,29 +346,45 @@ document.getElementById("saveSubject").addEventListener("click", function () {
       let found = false;
 
       const searchTerm = (document.getElementById("searchNotes").value || "").toLowerCase().trim();
-const filterCat = document.getElementById("filterCategory").value;
-      snapshot.forEach(function (doc) {
+      const filterCat = document.getElementById("filterCategory").value;
+
+      // Collect docs into array
+      const docsArray = [];
+      snapshot.forEach(function (doc) { docsArray.push(doc); });
+
+      // Sort: pinned first, then newest
+      docsArray.sort(function (a, b) {
+        const ap = a.data().pinned ? 1 : 0;
+        const bp = b.data().pinned ? 1 : 0;
+        if (ap !== bp) return bp - ap;
+        const at = a.data().timestamp ? a.data().timestamp.toMillis() : 0;
+        const bt = b.data().timestamp ? b.data().timestamp.toMillis() : 0;
+        return bt - at;
+      });
+
+      docsArray.forEach(function (doc) {
         const data = doc.data();
         if (data.subject !== currentSubject) return;
 
         // Apply search filter
-       if (searchTerm) {
-  const haystack = (
-    (data.title || "") + " " +
-    (data.content || "") + " " +
-    (data.poster || "") + " " +
-    (data.link || "")
-  ).toLowerCase();
-  if (!haystack.includes(searchTerm)) return;
-}
+        if (searchTerm) {
+          const haystack = (
+            (data.title || "") + " " +
+            (data.content || "") + " " +
+            (data.poster || "") + " " +
+            (data.link || "")
+          ).toLowerCase();
+          if (!haystack.includes(searchTerm)) return;
+        }
 
-// Apply category filter               ← OUTSIDE the search block
-if (filterCat && data.category !== filterCat) return;
+        // Apply category filter
+        if (filterCat && data.category !== filterCat) return;
 
         found = true;
 
         const div = document.createElement("div");
         div.className = "note-item";
+        if (data.pinned) div.classList.add("pinned");
 
         let html = "";
         if (data.category) {
@@ -378,8 +398,10 @@ if (filterCat && data.category !== filterCat) return;
           html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
         }
 
-        // Admin delete button
+        // Admin buttons (pin + delete)
         if (localStorage.getItem("bsit_admin") === "yes") {
+          const pinLabel = data.pinned ? "📌 Unpin" : "📌 Pin";
+          html += '<button class="pin-note" data-id="' + doc.id + '" data-pinned="' + (data.pinned ? "yes" : "no") + '">' + pinLabel + '</button>';
           html += '<button class="delete-note" data-id="' + doc.id + '">🗑 Delete</button>';
         }
 
@@ -396,6 +418,23 @@ if (filterCat && data.category !== filterCat) return;
             } catch (err) {
               console.error(err);
               alert("Failed to delete.");
+            }
+          };
+        }
+
+        const pinBtn = div.querySelector(".pin-note");
+        if (pinBtn) {
+          pinBtn.onclick = async function () {
+            const id = pinBtn.getAttribute("data-id");
+            const currentlyPinned = pinBtn.getAttribute("data-pinned") === "yes";
+            try {
+              const mod = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+              await mod.updateDoc(mod.doc(window.db, "notes", id), {
+                pinned: !currentlyPinned
+              });
+            } catch (err) {
+              console.error(err);
+              alert("Failed to pin.");
             }
           };
         }
