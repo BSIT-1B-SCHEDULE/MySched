@@ -481,7 +481,7 @@ label {
   height: 100%;
   background: #fff;
   box-shadow: -4px 0 15px rgba(0,0,0,0.2);
-  transition: right 0.3s ease;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   z-index: 10000;
   padding: 20px;
   box-sizing: border-box;
@@ -490,6 +490,7 @@ label {
 
 .side-panel.open {
   right: 0;
+  box-shadow: -12px 0 30px rgba(0,0,0,0.25);
 }
 
 .side-panel-header {
@@ -963,4 +964,51 @@ label {
   .note-item a {
     word-break: break-all;
   }
+}
+/* Smooth transitions everywhere */
+button {
+  transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+button:active {
+  transform: scale(0.97);
+}
+
+.day-btn {
+  transition: transform 0.2s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
+}
+.day-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(3, 47, 77, 0.2);
+}
+.day-btn.active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(3, 47, 77, 0.3);
+}
+
+.subject-card {
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+.subject-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(3, 47, 77, 0.15);
+}
+.subject-card:active {
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.note-item {
+  animation: fadeInUp 0.3s ease both;
+}
+
+.pin-note:hover,
+.delete-note:hover,
+#adminBtn:hover,
+#closePanel:hover {
+  transform: scale(1.05);
 }
