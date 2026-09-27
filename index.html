@@ -468,6 +468,7 @@ alert("Note posted!");
   const dueNotified = new Set();
 
   function checkAssignmentDue() {
+    if (!window.fsFns) return;
     const { collection, onSnapshot } = window.fsFns;
     onSnapshot(collection(window.db, "notes"), function (snapshot) {
       const now = Date.now();
@@ -489,8 +490,11 @@ alert("Note posted!");
     });
   }
 
-  setInterval(checkAssignmentDue, 5 * 60 * 1000);
+ // Wait for Firebase to load, then start reminders
+setTimeout(function () {
   checkAssignmentDue();
+  setInterval(checkAssignmentDue, 5 * 60 * 1000);
+}, 3000);
 </script>
 
 </body>
