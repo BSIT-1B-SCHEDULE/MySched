@@ -888,3 +888,79 @@ label {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+/* === MOBILE IMPROVEMENTS === */
+@media (max-width: 600px) {
+
+  /* Side panel takes full width on phones */
+  .side-panel {
+    width: 100%;
+    max-width: 100%;
+    right: -100%;
+    padding: 16px;
+  }
+
+  /* Bigger tap targets for day buttons */
+  .day-btn {
+    padding: 14px 6px;
+    font-size: 13px;
+  }
+
+  /* Day buttons: 2 columns on phones */
+  .day-buttons {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px;
+  }
+
+  /* Bigger inputs */
+  #noteForm input,
+  #noteForm textarea,
+  #noteForm select,
+  .search-notes,
+  .filter-category {
+    font-size: 16px; /* prevents iOS auto-zoom */
+    padding: 12px;
+  }
+
+  /* Bigger buttons */
+  #unlockBtn, #submitNote, #adminBtn, #closePanel {
+    font-size: 15px;
+  }
+
+  /* Bigger note action buttons */
+  .pin-note, .delete-note {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Smaller logo on phones */
+  .logo-header img {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Smaller title */
+  .logo-header h1 {
+    font-size: 24px;
+  }
+
+  /* Subtitle */
+  .subtitle {
+    font-size: 18px;
+  }
+
+  /* Search + filter row: stack vertically on phones */
+  .filter-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Quote: smaller on phones */
+  .motivation-quote p {
+    font-size: 13px;
+  }
+
+  /* Prevent overflow from long links */
+  .note-item a {
+    word-break: break-all;
+  }
+}
