@@ -150,6 +150,174 @@ document.getElementById("saveSubject").addEventListener("click", function () {
 
 <!-- REMINDERS (script.js) -->
 <script src="script.js"></script>
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCh6tEqlvsOESVTfBR_uwOzlYNVElNfup8",
+    authDomain: "bsit-1b-schedule.firebaseapp.com",
+    projectId: "bsit-1b-schedule",
+    storageBucket: "bsit-1b-schedule.firebasestorage.app",
+    messagingSenderId: "486365336422",
+    appId: "1:486365336422:web:923230a62b3d7c988aeea7"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.db = db;
+  window.fsFns = { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp };
+</script>
+
+<!-- Side panel -->
+<div id="sidePanel" class="side-panel">
+  <div class="side-panel-header">
+    <h3 id="panelSubjectName">Subject</h3>
+    <button id="closePanel">✖</button>
+  </div>
+  <div class="side-panel-content">
+    <div id="notesList">
+  <div class="loading-spinner"></div>
+</div>
+    <div id="addNoteSection">
+      <button id="unlockBtn">🔒 Enter Code to Post</button>
+      <div id="noteForm" style="display:none;">
+  <input type="text" id="posterName" placeholder="Your name (e.g. Juan D.)">
+  <select id="noteCategory">
+    <option value="Activity">📌 Activity</option>
+    <option value="Assignment">📚 Assignment</option>
+    <option value="Notes">📝 Notes</option>
+    <option value="Announcement">📢 Announcement</option>
+  </select>
+  <input type="text" id="noteTitle" placeholder="Title">
+  <textarea id="noteContent" placeholder="Type your note..."></textarea>
+  <input type="text" id="noteLink" placeholder="Optional link">
+  <button id="submitNote">Post Note</button>
+</div>
+    </div>
+  </div>
+</div>
+<script>
+  const SECRET_CODE = "BSIT1B-A.Y(2026-2027)";
+  let currentSubject = "";
+
+  // Open panel when a subject card is clicked
+  document.addEventListener("click", function (e) {
+    const card = e.target.closest(".subject-card");
+    if (card) {
+      const nameEl = card.querySelector(".subject-name");
+      const name = nameEl.textContent.replace(/^\d+\.\s*/, "").trim();
+      openPanel(name);
+    }
+  });
+
+ function openPanel(subjectName) {
+    currentSubject = subjectName;
+    document.getElementById("panelSubjectName").textContent = subjectName;
+    document.getElementById("sidePanel").classList.add("open");
+
+    if (localStorage.getItem("bsit_unlocked") === "yes") {
+      document.getElementById("unlockBtn").style.display = "none";
+      document.getElementById("noteForm").style.display = "block";
+    } else {
+      document.getElementById("unlockBtn").style.display = "block";
+      document.getElementById("noteForm").style.display = "none";
+    }
+
+    loadNotes();
+  }
+  
+
+  document.getElementById("closePanel").onclick = function () {
+    document.getElementById("sidePanel").classList.remove("open");
+  };
+
+  document.getElementById("unlockBtn").onclick = function () {
+  const code = prompt("Enter the class code to post:");
+  if (code === SECRET_CODE) {
+    localStorage.setItem("bsit_unlocked", "yes");
+    document.getElementById("unlockBtn").style.display = "none";
+    document.getElementById("noteForm").style.display = "block";
+  } else if (code !== null) {
+    alert("Wrong code.");
+  }
+};
+
+ document.getElementById("submitNote").onclick = async function () {
+    const poster = document.getElementById("posterName").value.trim();
+    const category = document.getElementById("noteCategory").value;
+    const title = document.getElementById("noteTitle").value.trim();
+    const content = document.getElementById("noteContent").value.trim();
+    const link = document.getElementById("noteLink").value.trim();
+
+    if (!poster) { alert("Please enter your name."); return; }
+    if (!title) { alert("Please enter a title."); return; }
+
+    const { collection, addDoc, serverTimestamp } = window.fsFns;
+
+    try {
+  await addDoc(collection(window.db, "notes"), {
+    subject: currentSubject,
+    poster: poster,
+    category: category,
+    title: title,
+    content: content,
+    link: link,
+    timestamp: serverTimestamp()
+  });
+    document.getElementById("posterName").value = "";
+document.getElementById("noteTitle").value = "";
+document.getElementById("noteContent").value = "";
+document.getElementById("noteLink").value = "";
+alert("Note posted!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to post. Check console.");
+    }
+  };
+
+  function loadNotes() {
+    const { collection, onSnapshot, query, orderBy } = window.fsFns;
+    const notesDiv = document.getElementById("notesList");
+    notesDiv.innerHTML = '<div class="loading-spinner"></div>';
+
+    const q = query(collection(window.db, "notes"), orderBy("timestamp", "desc"));
+
+    onSnapshot(q, function (snapshot) {
+      notesDiv.innerHTML = "";
+      let found = false;
+
+      snapshot.forEach(function (doc) {
+        const data = doc.data();
+        if (data.subject !== currentSubject) return;
+        found = true;
+
+        const div = document.createElement("div");
+        div.className = "note-item";
+
+        let html = "";
+if (data.category) {
+  html += '<span class="note-category cat-' + data.category.toLowerCase() + '">' + data.category + '</span>';
+}
+html += "<h4>" + data.title + "</h4>";
+if (data.content) html += "<p>" + data.content + "</p>";
+if (data.link) html += '<a href="' + data.link + '" target="_blank">🔗 Open Link</a>';
+if (data.poster) html += "<div class='note-poster'>by " + data.poster + "</div>";
+if (data.timestamp) {
+  html += "<small>" + data.timestamp.toDate().toLocaleString() + "</small>";
+}
+div.innerHTML = html;
+notesDiv.appendChild(div);
+      });
+
+      if (!found) {
+  notesDiv.innerHTML = '<div class="empty-state">📭<br><strong>No notes yet</strong><br><small>Be the first to post for this subject!</small></div>';
+}
+    });
+  }
+</script>
 
 </body>
 </html>
