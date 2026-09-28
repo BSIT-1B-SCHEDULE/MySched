@@ -96,7 +96,7 @@ p:not(.subtitle) {
     background-color: rgb(40, 120, 70);
     margin-top: 5px;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
     body {
         padding: 15px;
     }
