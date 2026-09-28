@@ -201,6 +201,7 @@ document.getElementById("jitsiBtn").onclick = function () {
     <h3 id="panelSubjectName">Subject</h3>
     <div>
     <button id="attendanceBtn" title="Mark Attendance" style="display:none;">📋</button>
+    <button id="dashboardBtn" title="Admin Dashboard" style="display:none;">📊</button>
       <button id="announceBtn" title="Post announcement" style="display:none;">📢</button>
       <button id="adminBtn" title="Admin login">🔑</button>
       <button id="closePanel">✖</button>
@@ -665,6 +666,115 @@ document.getElementById("saveAttendance").onclick = async function () {
   }
 };
 }, 500);
+
+// ---- ADMIN DASHBOARD ----
+setTimeout(function () {
+  if (localStorage.getItem("bsit_admin") === "yes") {
+    const btn = document.getElementById("dashboardBtn");
+    if (btn) btn.style.display = "inline-block";
+  }
+
+  const closeBtn = document.getElementById("closeDashboard");
+  if (closeBtn) {
+    closeBtn.onclick = function () {
+      document.getElementById("dashboardModal").style.display = "none";
+    };
+  }
+
+  const dashBtn = document.getElementById("dashboardBtn");
+  if (dashBtn) {
+    dashBtn.onclick = async function () {
+      const modal = document.getElementById("dashboardModal");
+      modal.style.display = "flex";
+
+      document.getElementById("topPosters").innerHTML = "Loading...";
+      document.getElementById("subjectActivity").innerHTML = "Loading...";
+      document.getElementById("recentActivity").innerHTML = "Loading...";
+
+      try {
+        const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+
+        const notesSnap = await getDocs(collection(window.db, "notes"));
+        const attendanceSnap = await getDocs(collection(window.db, "attendance"));
+
+        const notes = [];
+        notesSnap.forEach(d => notes.push({ id: d.id, ...d.data() }));
+
+        const attendance = [];
+        attendanceSnap.forEach(d => attendance.push({ id: d.id, ...d.data() }));
+
+        document.getElementById("statTotalNotes").textContent = notes.length;
+        document.getElementById("statTotalAttendance").textContent = attendance.length;
+        document.getElementById("statTotalStudents").textContent = ALLOWED_NAMES.length;
+
+        const posters = {};
+        notes.forEach(n => {
+          const name = n.poster || "Unknown";
+          posters[name] = (posters[name] || 0) + 1;
+        });
+        const sortedPosters = Object.entries(posters).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+        document.getElementById("topPosters").innerHTML = sortedPosters.length
+          ? sortedPosters.map((p, i) => `
+              <div class="dashboard-row">
+                <span>${i + 1}. ${p[0]}</span>
+                <span class="dashboard-count">${p[1]} ${p[1] === 1 ? "note" : "notes"}</span>
+              </div>
+            `).join("")
+          : "<div class='dashboard-empty'>No notes yet</div>";
+
+        const subjects = {};
+        notes.forEach(n => {
+          const s = n.subject || "Unknown";
+          subjects[s] = (subjects[s] || 0) + 1;
+        });
+        const sortedSubjects = Object.entries(subjects).sort((a, b) => b[1] - a[1]);
+
+        document.getElementById("subjectActivity").innerHTML = sortedSubjects.length
+          ? sortedSubjects.map(s => `
+              <div class="dashboard-row">
+                <span>${s[0]}</span>
+                <span class="dashboard-count">${s[1]} ${s[1] === 1 ? "note" : "notes"}</span>
+              </div>
+            `).join("")
+          : "<div class='dashboard-empty'>No activity yet</div>";
+
+        const recentNotes = notes
+          .filter(n => n.timestamp)
+          .map(n => ({
+            type: "note",
+            text: `${n.poster || "?"} posted "${n.title || "untitled"}" in ${n.subject || "?"}`,
+            time: n.timestamp.toMillis ? n.timestamp.toMillis() : 0
+          }));
+
+        const recentAttendance = attendance
+          .filter(a => a.timestamp)
+          .map(a => ({
+            type: "attendance",
+            text: `Attendance saved for ${a.subject || "?"} on ${a.date || "?"}`,
+            time: a.timestamp.toMillis ? a.timestamp.toMillis() : 0
+          }));
+
+        const recent = [...recentNotes, ...recentAttendance]
+          .sort((a, b) => b.time - a.time)
+          .slice(0, 10);
+
+        document.getElementById("recentActivity").innerHTML = recent.length
+          ? recent.map(r => `
+              <div class="dashboard-row">
+                <span>${r.type === "note" ? "📝" : "📋"} ${r.text}</span>
+                <span class="dashboard-time">${new Date(r.time).toLocaleDateString()}</span>
+              </div>
+            `).join("")
+          : "<div class='dashboard-empty'>No recent activity</div>";
+
+      } catch (err) {
+        console.error(err);
+        alert("Failed to load dashboard data.");
+      }
+    };
+  }
+}, 1000);
 </script>
 <!-- ATTENDANCE MODAL -->
 <div id="attendanceModal" class="attendance-modal" style="display:none;">
@@ -677,6 +787,40 @@ document.getElementById("saveAttendance").onclick = async function () {
     <div id="attendanceList" class="attendance-list"></div>
     <div class="attendance-actions">
       <button id="saveAttendance">💾 Save Attendance</button>
+    </div>
+  </div>
+</div>
+<!-- DASHBOARD MODAL -->
+<div id="dashboardModal" class="dashboard-modal" style="display:none;">
+  <div class="dashboard-box">
+    <div class="dashboard-header">
+      <h3>📊 Admin Dashboard</h3>
+      <button id="closeDashboard">✖</button>
+    </div>
+    <div class="dashboard-content">
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalNotes">0</div>
+          <div class="stat-label">Total Notes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalAttendance">0</div>
+          <div class="stat-label">Attendance Records</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalStudents">0</div>
+          <div class="stat-label">Students</div>
+        </div>
+      </div>
+
+      <h4 class="dashboard-section-title">🏆 Top Posters</h4>
+      <div id="topPosters" class="dashboard-list">Loading...</div>
+
+      <h4 class="dashboard-section-title">🏫 Subject Activity</h4>
+      <div id="subjectActivity" class="dashboard-list">Loading...</div>
+
+      <h4 class="dashboard-section-title">📅 Recent Activity</h4>
+      <div id="recentActivity" class="dashboard-list">Loading...</div>
     </div>
   </div>
 </div>
