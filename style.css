@@ -895,7 +895,7 @@ label {
   /* Side panel takes full width on phones */
  .side-panel {
   width: 80vw;
-  max-width: 320px;
+ max-width: none;
   right: -100vw;
   padding: 14px 12px;
   box-shadow: -8px 0 20px rgba(0,0,0,0.25);
