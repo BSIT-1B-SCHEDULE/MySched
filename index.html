@@ -12,6 +12,17 @@
 </head>
 
 <body>
+    <!-- NAME GATE -->
+<div id="nameGate" class="name-gate">
+  <div class="name-gate-box">
+    <img src="LOGO.png" alt="BSIT 1B Logo" style="width:80px;height:80px;">
+    <h2>Welcome to BSIT 1B Schedule</h2>
+    <p>Please enter your full name to continue:</p>
+    <input type="text" id="gateName" placeholder="e.g. Alexis Franze P. Enoc" maxlength="60">
+    <button id="gateEnter">Enter</button>
+    <small>Your name will be saved on this device.</small>
+  </div>
+</div>
 <!-- ANNOUNCEMENT BANNER -->
 <div id="announcementBanner" class="announcement-banner" style="display:none;">
   <div class="announcement-content">
@@ -229,6 +240,23 @@ document.getElementById("jitsiBtn").onclick = function () {
 </div>
 
 <script>
+    // ---- NAME GATE ----
+(function () {
+  const storedName = localStorage.getItem("bsit_student_name");
+  if (storedName) {
+    document.getElementById("nameGate").style.display = "none";
+    return;
+  }
+  document.getElementById("gateEnter").onclick = function () {
+    const name = document.getElementById("gateName").value.trim();
+    if (!name || name.length < 3) {
+      alert("Please enter your full name (at least 3 characters).");
+      return;
+    }
+    localStorage.setItem("bsit_student_name", name);
+    document.getElementById("nameGate").style.display = "none";
+  };
+})();
   // Rules popup
   if (localStorage.getItem("bsit_rules_seen") === "yes") {
     document.getElementById("rulesPopup").style.display = "none";
