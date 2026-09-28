@@ -1040,3 +1040,114 @@ button:active {
   0%, 100% { box-shadow: 0 0 12px rgba(243, 156, 18, 0.9); }
   50%      { box-shadow: 0 0 20px rgba(243, 156, 18, 1); }
 }
+@media (max-width: 900px) {
+
+  /* Bigger, clearer notes */
+  .note-item {
+    padding: 14px 12px;
+    margin-bottom: 14px;
+  }
+
+  .note-item h4 {
+    font-size: 18px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .note-item p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .note-item a {
+    font-size: 15px;
+    padding: 6px 0;
+  }
+
+  .note-poster {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .note-due {
+    font-size: 15px;
+    margin: 8px 0;
+  }
+
+  .note-countdown {
+    font-size: 15px;
+    margin: 6px 0;
+  }
+
+  .note-item small {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  .note-category {
+    font-size: 13px;
+    padding: 5px 12px;
+    margin-bottom: 8px;
+  }
+
+  /* Panel header bigger */
+  .side-panel-header h3 {
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  /* Bigger search + filter */
+  .search-notes {
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+
+  .filter-category {
+    font-size: 15px;
+    padding: 12px 14px;
+  }
+
+  /* Bigger form fields */
+  #noteForm input,
+  #noteForm textarea,
+  #noteForm select,
+  #noteDueDate {
+    font-size: 16px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+
+  #noteForm textarea {
+    min-height: 100px;
+  }
+
+  /* Bigger buttons */
+  #unlockBtn,
+  #submitNote {
+    font-size: 17px;
+    padding: 14px;
+    margin-top: 10px;
+  }
+
+  .pin-note,
+  .delete-note {
+    font-size: 15px;
+    padding: 10px 14px;
+    margin-top: 8px;
+  }
+
+  /* Empty state bigger */
+  .empty-state {
+    font-size: 16px;
+    padding: 40px 15px;
+  }
+
+  .empty-state strong {
+    font-size: 18px;
+  }
+
+  .empty-state small {
+    font-size: 14px;
+  }
+}
