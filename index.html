@@ -241,20 +241,52 @@ document.getElementById("jitsiBtn").onclick = function () {
 
 <script>
     // ---- NAME GATE ----
+// ---- NAME GATE ----
+// 👇 ADD YOUR CLASS LIST HERE LATER
+const ALLOWED_NAMES = [
+   "Alexis Franze P. Enoc",
+  "AKMAD, SITTIE JAHARA",
+  "ALCASID, SHAWN",
+  "ALDAYA, KLARK"
+  // ... add more names here
+];
+
 (function () {
   const storedName = localStorage.getItem("bsit_student_name");
+
   if (storedName) {
     document.getElementById("nameGate").style.display = "none";
     return;
   }
+
   document.getElementById("gateEnter").onclick = function () {
     const name = document.getElementById("gateName").value.trim();
+
     if (!name || name.length < 3) {
       alert("Please enter your full name (at least 3 characters).");
       return;
     }
-    localStorage.setItem("bsit_student_name", name);
-    document.getElementById("nameGate").style.display = "none";
+
+    // If class list is empty, allow anyone (for now)
+    if (ALLOWED_NAMES.length === 0) {
+      localStorage.setItem("bsit_student_name", name);
+      document.getElementById("nameGate").style.display = "none";
+      return;
+    }
+
+    // Check if name is on the list
+    const entered = name.toLowerCase();
+    const match = ALLOWED_NAMES.find(function (allowed) {
+      return allowed.toLowerCase().includes(entered) ||
+             entered.includes(allowed.toLowerCase());
+    });
+
+    if (match) {
+      localStorage.setItem("bsit_student_name", match);
+      document.getElementById("nameGate").style.display = "none";
+    } else {
+      alert("Sorry, your name is not on the BSIT 1B class list.\n\nIf you think this is a mistake, contact the class representative.");
+    }
   };
 })();
   // Rules popup
