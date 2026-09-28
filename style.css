@@ -1151,3 +1151,56 @@ button:active {
     font-size: 14px;
   }
 }
+@media (max-width: 900px) {
+
+  /* Panel fills entire height, no gap at bottom */
+  .side-panel {
+    height: 100vh !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Content area grows to fill the space */
+  .side-panel-content {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Notes list grows to fill empty space */
+  #notesList {
+    flex: 1 !important;
+    min-height: 200px;
+  }
+
+  /* Empty state text — bigger and clearer */
+  .empty-state {
+    font-size: 18px !important;
+    padding: 50px 20px !important;
+    line-height: 1.6 !important;
+  }
+
+  .empty-state strong {
+    font-size: 22px !important;
+    margin: 12px 0 8px !important;
+  }
+
+  .empty-state small {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+
+  /* "Enter Code to Post" button — bigger */
+  #unlockBtn {
+    font-size: 18px !important;
+    padding: 16px !important;
+    margin-top: 12px !important;
+  }
+
+  /* Panel title bigger */
+  .side-panel-header h3 {
+    font-size: 22px !important;
+    font-weight: bold !important;
+  }
+}
