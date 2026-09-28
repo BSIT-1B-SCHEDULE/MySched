@@ -255,7 +255,7 @@ const ALLOWED_NAMES = [
   const storedName = localStorage.getItem("bsit_student_name");
 
   if (storedName) {
-    document.getElementById("nameGate").style.display = "none";
+document.getElementById("nameGate").classList.add("hidden");
     return;
   }
 
@@ -270,7 +270,7 @@ const ALLOWED_NAMES = [
     // If class list is empty, allow anyone (for now)
     if (ALLOWED_NAMES.length === 0) {
       localStorage.setItem("bsit_student_name", name);
-      document.getElementById("nameGate").style.display = "none";
+    document.getElementById("nameGate").classList.add("hidden");
       return;
     }
 
