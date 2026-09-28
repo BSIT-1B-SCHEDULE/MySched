@@ -18,7 +18,7 @@
     <img src="LOGO.png" alt="BSIT 1B Logo" style="width:80px;height:80px;">
     <h2>Welcome to BSIT 1B Schedule</h2>
     <p>Please enter your full name to continue:</p>
-    <input type="text" id="gateName" placeholder="e.g. Alexis Franze P. Enoc" maxlength="60">
+    <input type="text" id="gateName" placeholder="e.g. Enoc, Alexis Frence P" maxlength="60">
     <button id="gateEnter">Enter</button>
     <small>Your name will be saved on this device.</small>
   </div>
@@ -244,42 +244,42 @@ document.getElementById("jitsiBtn").onclick = function () {
 // ---- NAME GATE ----
 // 👇 ADD YOUR CLASS LIST HERE LATER
 const ALLOWED_NAMES = [
-  "AKMAD, SITTE JAHARA Q",
-  "ALCASID, SHAWN T",
-  "ALDAYA, MARLBOR KLARCK L",
-  "AMAHAN, RHYZE KRISTINE JOY O",
-  "ANTONIANO, DANIEL HENNEY D",
-  "BAOILAN, BRENTT JOSEPH Q",
-  "BATULANON, TRICIA D",
-  "CABARAL, ANGEL B",
-  "CARDINAS, KLEVER DOMINIQUE A",
-  "CATUBIG, ALTHEA MARY CLAIRE V",
-  "CERIACO, IVAN JAMES I",
-  "CHAVEZ, KENT CYNE H",
-  "CORONEL, KHENT SON E",
-  "DUMAYAC, KRISTOFF XANDER LEVI A",
-  "ENOC, ALEXIS FRENCE P",
-  "ESMALDE, RALPH JOHN R",
-  "FERMO, VINCENT RUZA A",
-  "GALINDO, JILLYN M",
-  "GAPUTAN, JOHN REX S",
-  "GELLA, KERVIN ISAAC",
-  "MACABALES, YORIE R",
-  "MONSANTO, IRISH JEAN T",
-  "NACUA, JOHN REX T",
-  "NERI, NICOLE V",
-  "OBESO, EZEKIEL A",
-  "PAJOTA, CHRISTIAN JANJUV A",
-  "PANERIO, CLARK DEXTER P",
-  "RAMOS, KING FLOYD B",
-  "REMEDIOS, WRED G",
-  "SALILA, SHANE MARIE G",
-  "SARABIA, JOSH MOSES A.",
-  "SOLATORIO, BELOVE P",
-  "TORRES, LANCE M",
-  "UNGGAN, JC",
-  "VILLANUEVA, PRINCE CARL T",
-  "YATA, MAECY JEAN C"
+  "Akhmad, Sitte Jahara Q",
+  "Alcasid, Shawn T",
+  "Aldaya, Marlbor Klarck L",
+  "Amahan, Rhyze Kristine Joy O",
+  "Antoniano, Daniel Henney D",
+  "Baoilan, Brentt Joseph Q",
+  "Batulanon, Tricia D",
+  "Cabaral, Angel B",
+  "Cardinas, Klever Dominique A",
+  "Catubig, Althea Mary Claire V",
+  "Ceriaco, Ivan James I",
+  "Chavez, Kent Cyne H",
+  "Coronel, Khent Son E",
+  "Dumayac, Kristoff Xander Levi A",
+  "Enoc, Alexis Frence P",
+  "Esmalde, Ralph John R",
+  "Fermo, Vincent Ruza A",
+  "Galindo, Jillyn M",
+  "Gaputan, John Rex S",
+  "Gella, Kervin Isaac",
+  "Macabales, Yorie R",
+  "Monsanto, Irish Jean T",
+  "Nacua, John Rex T",
+  "Neri, Nicole V",
+  "Obeso, Ezekiel A",
+  "Pajota, Christian Janjuv A",
+  "Panerio, Clark Dexter P",
+  "Ramos, King Floyd B",
+  "Remedios, Wred G",
+  "Salila, Shane Marie G",
+  "Sarabia, Josh Moses A.",
+  "Solatorio, Belove P",
+  "Torres, Lance M",
+  "Unggan, Jc",
+  "Villanueva, Prince Carl T",
+  "Yata, Maecy Jean C"
 ];
 
 (function () {
@@ -300,7 +300,7 @@ document.getElementById("nameGate").classList.add("hidden");
 
     // If class list is empty, allow anyone (for now)
     if (ALLOWED_NAMES.length === 0) {
-     localStorage.setItem("bsit_student_name", name.toUpperCase());
+     localStorage.setItem("bsit_student_name", match);
     document.getElementById("nameGate").classList.add("hidden");
       return;
     }
@@ -313,7 +313,7 @@ document.getElementById("nameGate").classList.add("hidden");
     });
 
     if (match) {
-     localStorage.setItem("bsit_student_name", match.toUpperCase());
+    localStorage.setItem("bsit_student_name", match);
      document.getElementById("nameGate").classList.add("hidden");
     } else {
       alert("Sorry, your name is not on the BSIT 1B class list.\n\nIf you think this is a mistake, contact the class representative.");
