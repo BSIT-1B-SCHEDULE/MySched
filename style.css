@@ -120,7 +120,7 @@ h2 {
     text-align: center;
 }
 body {
-    max-width: 600px;
+    max-width: 900;
     margin: 0 auto;
 }
 p:not(.subtitle) {
