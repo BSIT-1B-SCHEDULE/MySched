@@ -363,6 +363,39 @@ h2 {
 #adminBtn:hover { transform: scale(1.15); }
 #closePanel:hover { transform: scale(1.05); }
 
+#attendanceBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #17a2b8;
+  padding: 4px 8px;
+  width: auto;
+}
+#attendanceBtn:hover { transform: scale(1.15); }
+
+#announceBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #c0392b;
+  padding: 4px 8px;
+  width: auto;
+}
+#announceBtn:hover { transform: scale(1.15); }
+
+#dashboardBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #8e44ad;
+  padding: 4px 8px;
+  width: auto;
+}
+#dashboardBtn:hover { transform: scale(1.15); }
+
 /* Search + filter */
 .filter-row {
   display: flex;
@@ -406,24 +439,67 @@ h2 {
 }
 
 .note-item {
-  background: #f9f9f9;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border-left: 4px solid rgb(3, 47, 77);
+  background: #ffffff;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border-left: 5px solid rgb(3, 47, 77);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   animation: fadeInUp 0.3s ease both;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+  position: relative;
+}
+.note-item:hover {
+  box-shadow: 0 6px 20px rgba(3, 47, 77, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
 }
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .note-item.pinned {
-  border-left: 4px solid #f39c12;
-  background: #fff8e7;
+  border-left: 5px solid #f39c12;
+  background: linear-gradient(135deg, #fffbf0 0%, #fff8e7 100%);
+  box-shadow: 0 4px 14px rgba(243, 156, 18, 0.2), 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-.note-item h4 { margin: 0 0 5px; color: rgb(3, 47, 77); font-size: 15px; }
-.note-item p { margin: 0 0 5px; font-size: 14px; }
-.note-item a { display: inline-block; font-size: 13px; color: rgb(3, 47, 77); margin-bottom: 4px; word-break: break-all; }
+.note-item.pinned::after {
+  content: "📌";
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.note-item h4 {
+  margin: 0 0 8px;
+  color: rgb(3, 47, 77);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
+}
+.note-item p {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.5;
+}
+.note-item a {
+  display: inline-block;
+  font-size: 14px;
+  color: rgb(3, 47, 77);
+  margin: 6px 0;
+  padding: 6px 10px;
+  background: rgba(3, 47, 77, 0.08);
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  word-break: break-all;
+}
+.note-item a:hover {
+  background: rgba(3, 47, 77, 0.15);
+}
 .note-item small { display: block; color: #888; font-size: 11px; margin-top: 4px; }
 
 .note-category {
@@ -595,165 +671,24 @@ h2 {
   cursor: pointer;
 }
 
-/* ============================================================
-   MOBILE (phones up to 900px wide)
-   ============================================================ */
-@media (max-width: 900px) {
-
-  body { padding: 15px; }
-
-  /* Side panel: 95% width, full height, fills screen */
-  .side-panel {
-    width: 95vw;
-    max-width: none;
-    right: -100vw;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    max-height: 100vh;
-    padding: 14px 12px;
-    box-shadow: -8px 0 20px rgba(0,0,0,0.25);
-  }
-
-  /* Day buttons: 3 columns on phones */
-  .day-buttons {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .day-btn {
-    padding: 14px 6px;
-    font-size: 13px;
-  }
-
-  /* Logo + title smaller */
-  .logo-header img { width: 70px; height: 70px; }
-  .logo-header h1 { font-size: 24px; }
-  .subtitle { font-size: 18px; }
-
-  /* Quote smaller */
-  .motivation-quote p { font-size: 13px; }
-
-  /* Bigger touch inputs */
-  #noteForm input,
-  #noteForm textarea,
-  #noteForm select,
-  #noteDueDate,
-  .search-notes,
-  .filter-category {
-    font-size: 16px;
-    padding: 12px;
-  }
-  #noteForm textarea { min-height: 100px; }
-
-  /* Bigger unlock + post buttons */
-  #unlockBtn,
-  #submitNote {
-    font-size: 17px;
-    padding: 14px;
-    margin-top: 10px;
-  }
-
-  /* Bigger pin/delete buttons */
-  .pin-note,
-  .delete-note {
-    font-size: 15px;
-    padding: 10px 14px;
-    margin-top: 8px;
-  }
-
-  /* Bigger panel title */
-  .side-panel-header h3 {
-    font-size: 20px;
-    font-weight: bold;
-    line-height: 1.3;
-  }
-
-  /* Bigger notes */
-  .note-item { padding: 14px 12px; margin-bottom: 14px; }
-  .note-item h4 { font-size: 18px; line-height: 1.3; margin-bottom: 8px; }
-  .note-item p { font-size: 16px; line-height: 1.5; margin-bottom: 8px; }
-  .note-item a { font-size: 15px; padding: 6px 0; }
-  .note-item small { font-size: 13px; margin-top: 6px; }
-  .note-poster { font-size: 14px; margin-top: 6px; }
-  .note-due { font-size: 15px; margin: 8px 0; }
-  .note-countdown { font-size: 15px; margin: 6px 0; }
-  .note-category { font-size: 13px; padding: 5px 12px; margin-bottom: 8px; }
-
-  /* Panel content grows to fill */
-  .side-panel-content {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-  #notesList {
-    flex: 1 1 auto;
-    min-height: 200px;
-  }
-  #addNoteSection { margin-top: auto; }
-
-  /* Empty state bigger */
-  .empty-state {
-    font-size: 18px;
-    padding: 50px 20px;
-    line-height: 1.6;
-  }
-  .empty-state strong { font-size: 22px; margin: 12px 0 8px; }
-  .empty-state small { font-size: 15px; line-height: 1.5; }
-
-  /* Stack search + filter on phones */
-  .filter-row { flex-direction: column; gap: 6px; }
-}
-@media (max-width: 900px) {
-  html, body {
-    height: 100%;
-    overflow-x: hidden;
-  }
-
-  .side-panel {
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    right: -100vw !important;
-    left: auto !important;
-    width: 95vw !important;
-    height: 100vh !important;
-    min-height: 100vh !important;
-    max-height: 100vh !important;
-    margin: 0 !important;
-    padding: 14px 12px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow-y: auto !important;
-    z-index: 10000 !important;
-  }
-
-  .side-panel.open {
-    right: 0 !important;
-  }
-}
 /* ---------- ANNOUNCEMENT BANNER ---------- */
 .announcement-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
+  margin: 20px 0;
   background: linear-gradient(90deg, #c0392b, #e74c3c);
   color: #fff;
-  padding: 12px 50px 12px 20px;
-  z-index: 30000;
+  padding: 16px 50px 16px 20px;
+  border-radius: 12px;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-  animation: bannerSlideDown 0.4s ease;
+  box-shadow: 0 6px 18px rgba(192, 57, 43, 0.35);
   font-size: 15px;
   font-weight: 600;
   text-align: center;
 }
-
 .announcement-content { max-width: 800px; line-height: 1.4; }
-
 #closeAnnouncement {
   position: absolute;
   right: 12px;
@@ -772,23 +707,7 @@ h2 {
 }
 #closeAnnouncement:hover { background: rgba(255,255,255,0.35); }
 
-@keyframes bannerSlideDown {
-  from { transform: translateY(-100%); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
-}
-
-#announceBtn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #c0392b;
-  padding: 4px 8px;
-  width: auto;
-}
-#announceBtn:hover { transform: scale(1.15);
- }
- /* Name Gate */
+/* ---------- NAME GATE ---------- */
 .name-gate {
   position: fixed;
   inset: 0;
@@ -801,31 +720,11 @@ h2 {
   opacity: 1;
   transition: opacity 0.5s ease, visibility 0.5s ease;
 }
-.name-gate {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, rgb(3, 47, 77), rgb(132, 177, 216));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50000;
-  padding: 20px;
-  opacity: 1;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
 .name-gate.hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
-.name-gate.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 .name-gate-box {
   background: white;
   max-width: 380px;
@@ -836,16 +735,11 @@ h2 {
   text-align: center;
   animation: gatePop 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 @keyframes gatePop {
   from { transform: scale(0.9); opacity: 0; }
   to   { transform: scale(1);   opacity: 1; }
 }
-
-.name-gate-box img {
-  margin-bottom: 8px;
-}
-
+.name-gate-box img { margin-bottom: 8px; }
 .name-gate-box h2 {
   color: rgb(3, 47, 77);
   margin: 8px 0 12px;
@@ -853,7 +747,6 @@ h2 {
   background: none;
   padding: 0;
 }
-
 .name-gate-box p {
   color: #444;
   font-size: 15px;
@@ -861,7 +754,6 @@ h2 {
   background: none;
   padding: 0;
 }
-
 .name-gate-box input {
   width: 100%;
   padding: 14px;
@@ -872,12 +764,10 @@ h2 {
   box-sizing: border-box;
   font-family: inherit;
 }
-
 .name-gate-box input:focus {
   outline: none;
   border-color: rgb(3, 47, 77);
 }
-
 .name-gate-box button {
   width: 100%;
   padding: 14px;
@@ -889,17 +779,14 @@ h2 {
   font-weight: bold;
   cursor: pointer;
 }
-
-.name-gate-box button:hover {
-  background: rgb(5, 65, 105);
-}
-
+.name-gate-box button:hover { background: rgb(5, 65, 105); }
 .name-gate-box small {
   display: block;
   margin-top: 12px;
   color: #888;
   font-size: 12px;
 }
+
 /* ---------- ATTENDANCE MODAL ---------- */
 .attendance-modal {
   position: fixed;
@@ -911,7 +798,6 @@ h2 {
   z-index: 25000;
   padding: 20px;
 }
-
 .attendance-box {
   background: white;
   width: 100%;
@@ -924,7 +810,6 @@ h2 {
   flex-direction: column;
   animation: gatePop 0.3s ease;
 }
-
 .attendance-header {
   display: flex;
   justify-content: space-between;
@@ -933,14 +818,12 @@ h2 {
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
-
 .attendance-header h3 {
   margin: 0;
   color: rgb(3, 47, 77);
   background: none;
   padding: 0;
 }
-
 #closeAttendance {
   background: none;
   border: none;
@@ -950,7 +833,6 @@ h2 {
   width: auto;
   padding: 4px 10px;
 }
-
 .attendance-date {
   font-size: 14px;
   color: #666;
@@ -959,13 +841,11 @@ h2 {
   background: none;
   padding: 0;
 }
-
 .attendance-list {
   overflow-y: auto;
   flex: 1;
   margin-bottom: 12px;
 }
-
 .attendance-student {
   display: flex;
   justify-content: space-between;
@@ -977,14 +857,12 @@ h2 {
   border-left: 4px solid rgb(3, 47, 77);
   font-size: 14px;
 }
-
 .attendance-student-name {
   font-weight: 600;
   color: rgb(3, 47, 77);
   flex: 1;
   margin-right: 10px;
 }
-
 .attendance-select {
   padding: 6px 10px;
   border: 1px solid #ccc;
@@ -995,16 +873,11 @@ h2 {
   width: auto;
   margin: 0;
 }
-
 .attendance-select.present { background: #d4edda; color: #155724; border-color: #28a745; }
 .attendance-select.absent  { background: #f8d7da; color: #721c24; border-color: #dc3545; }
 .attendance-select.late    { background: #fff3cd; color: #856404; border-color: #ffc107; }
 .attendance-select.excused { background: #d1ecf1; color: #0c5460; border-color: #17a2b8; }
-
-.attendance-actions {
-  margin-top: auto;
-}
-
+.attendance-actions { margin-top: auto; }
 #saveAttendance {
   width: 100%;
   padding: 14px;
@@ -1016,22 +889,8 @@ h2 {
   font-weight: bold;
   cursor: pointer;
 }
-#saveAttendance:hover {
-  background: rgb(30, 100, 55);
-}
+#saveAttendance:hover { background: rgb(30, 100, 55); }
 
-#attendanceBtn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #17a2b8;
-  padding: 4px 8px;
-  width: auto;
-}
-#attendanceBtn:hover {
-  transform: scale(1.15);
-}
 /* ---------- ADMIN DASHBOARD ---------- */
 .dashboard-modal {
   position: fixed;
@@ -1043,7 +902,6 @@ h2 {
   z-index: 26000;
   padding: 20px;
 }
-
 .dashboard-box {
   background: white;
   width: 100%;
@@ -1056,7 +914,6 @@ h2 {
   flex-direction: column;
   animation: gatePop 0.3s ease;
 }
-
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -1065,14 +922,12 @@ h2 {
   padding-bottom: 10px;
   margin-bottom: 14px;
 }
-
 .dashboard-header h3 {
   margin: 0;
   color: rgb(3, 47, 77);
   background: none;
   padding: 0;
 }
-
 #closeDashboard {
   background: none;
   border: none;
@@ -1082,19 +937,13 @@ h2 {
   width: auto;
   padding: 4px 10px;
 }
-
-.dashboard-content {
-  overflow-y: auto;
-  flex: 1;
-}
-
+.dashboard-content { overflow-y: auto; flex: 1; }
 .dashboard-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin-bottom: 20px;
 }
-
 .stat-card {
   background: linear-gradient(135deg, rgba(3, 47, 77, 0.08), rgba(3, 47, 77, 0.15));
   padding: 14px 8px;
@@ -1102,7 +951,6 @@ h2 {
   text-align: center;
   border-left: 4px solid rgb(3, 47, 77);
 }
-
 .stat-number {
   font-size: 24px;
   font-weight: bold;
@@ -1110,7 +958,6 @@ h2 {
   line-height: 1;
   margin-bottom: 4px;
 }
-
 .stat-label {
   font-size: 11px;
   color: #555;
@@ -1118,7 +965,6 @@ h2 {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-
 .dashboard-section-title {
   color: rgb(3, 47, 77);
   font-size: 14px;
@@ -1129,11 +975,7 @@ h2 {
   padding-bottom: 6px;
   text-align: left;
 }
-
-.dashboard-list {
-  margin-bottom: 10px;
-}
-
+.dashboard-list { margin-bottom: 10px; }
 .dashboard-row {
   display: flex;
   justify-content: space-between;
@@ -1145,25 +987,9 @@ h2 {
   font-size: 13px;
   gap: 8px;
 }
-
-.dashboard-row span:first-child {
-  flex: 1;
-  color: #333;
-}
-
-.dashboard-count {
-  color: rgb(3, 47, 77);
-  font-weight: bold;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.dashboard-time {
-  color: #888;
-  font-size: 11px;
-  white-space: nowrap;
-}
-
+.dashboard-row span:first-child { flex: 1; color: #333; }
+.dashboard-count { color: rgb(3, 47, 77); font-weight: bold; font-size: 12px; white-space: nowrap; }
+.dashboard-time { color: #888; font-size: 11px; white-space: nowrap; }
 .dashboard-empty {
   text-align: center;
   color: #999;
@@ -1172,32 +998,19 @@ h2 {
   font-style: italic;
 }
 
-#dashboardBtn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #8e44ad;
-  padding: 4px 8px;
-  width: auto;
-}
-#dashboardBtn:hover {
-  transform: scale(1.15);
-}
-
+/* ============================================================
+   MOBILE (phones up to 900px wide)
+   ============================================================ */
 @media (max-width: 900px) {
-  .dashboard-stats {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
+
+  body { padding: 15px; }
+
+  /* Side panel: 95% width, full height */
+  .side-panel {
+    width: 95vw !important;
+    max-width: none !important;
+    right: -100vw !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important}
   }
-  .stat-number {
-    font-size: 20px;
-  }
-  .stat-label {
-    font-size: 10px;
-  }
-  .dashboard-row {
-    font-size: 12px;
-    padding: 7px 8px;
-  }
-}
