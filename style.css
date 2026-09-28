@@ -890,11 +890,11 @@ label {
   50% { opacity: 0.5; }
 }
 /* === MOBILE IMPROVEMENTS === */
-@media (max-width: 600px) {
+@media (max-width: 950px) {
 
   /* Side panel takes full width on phones */
 .side-panel {
-  width: 90vw;
+  width: 95vw;
   max-width: none;
   right: -100vw;
   top: 0;
