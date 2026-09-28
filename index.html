@@ -593,7 +593,7 @@ document.getElementById("nameGate").classList.add("hidden");
     } catch (err) { console.error(err); alert("Failed to post announcement."); }
   };
   setTimeout(loadAnnouncement, 3000);
-  
+  setTimeout(function () {
 // ---- ATTENDANCE SYSTEM ----
 if (localStorage.getItem("bsit_admin") === "yes") {
   document.getElementById("attendanceBtn").style.display = "inline-block";
@@ -664,6 +664,7 @@ document.getElementById("saveAttendance").onclick = async function () {
     alert("Failed to save attendance. Check console.");
   }
 };
+}, 500);
 </script>
 <!-- ATTENDANCE MODAL -->
 <div id="attendanceModal" class="attendance-modal" style="display:none;">
