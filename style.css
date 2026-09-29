@@ -1004,15 +1004,26 @@ h2 {
 @media (max-width: 900px) {
 
   body { padding: 15px; }
-
+}
   /* Side panel: 95% width, full height */
+  /* Side panel: 100% width, full height */
   .side-panel {
-    width: 95vw !important;
+    width: 100vw !important;
     max-width: none !important;
     right: -100vw !important;
     top: 0 !important;
     bottom: 0 !important;
-    height: 100vh !important}
+    height: 100vh !important;
+    max-height: 100vh !important;
+    padding: 14px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    z-index: 10000 !important;
+    box-shadow: -8px 0 20px rgba(0,0,0,0.25);
+  }
+  .side-panel.open {
+    right: 0 !important;
   }
   /* ---------- ATTENDANCE HISTORY MODAL ---------- */
 .history-modal {
