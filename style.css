@@ -157,7 +157,7 @@ h2 {
  .day-buttons {
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
-  width: 100%;
+  width: 90%;
   padding: 0;
   margin: 0 auto 20px;
   max-width: 100%;
@@ -165,7 +165,7 @@ h2 {
   .day-btn {
   padding: 14px 6px;
   font-size: 13px;
-  width: 100%;
+  width: 90%;
   min-width: 0;
   text-align: center;
   overflow: hidden;
@@ -175,7 +175,7 @@ h2 {
 
 
 .day-btn {
-  width: 100%;
+  width: 90%;
   padding: 13px 8px;
   background: rgb(186, 196, 202);
   color: rgb(3, 47, 77);
