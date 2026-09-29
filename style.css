@@ -1014,3 +1014,171 @@ h2 {
     bottom: 0 !important;
     height: 100vh !important}
   }
+  /* ---------- ATTENDANCE HISTORY MODAL ---------- */
+.history-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 27000;
+  padding: 20px;
+}
+
+.history-box {
+  background: white;
+  width: 100%;
+  max-width: 550px;
+  max-height: 90vh;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  animation: gatePop 0.3s ease;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.history-header h3 {
+  margin: 0;
+  color: rgb(3, 47, 77);
+  background: none;
+  padding: 0;
+}
+
+#closeHistory {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  width: auto;
+  padding: 4px 10px;
+}
+
+.history-list {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.history-record {
+  background: #f9f9f9;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  border-left: 4px solid rgb(3, 47, 77);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.history-record:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.history-summary {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.history-summary-text {
+  flex: 1;
+}
+
+.history-subject {
+  font-weight: 700;
+  color: rgb(3, 47, 77);
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.history-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.history-counts {
+  display: flex;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.count-badge {
+  padding: 3px 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.count-present { background: #d4edda; color: #155724; }
+.count-absent  { background: #f8d7da; color: #721c24; }
+.count-late    { background: #fff3cd; color: #856404; }
+.count-excused { background: #d1ecf1; color: #0c5460; }
+
+.history-arrow {
+  font-size: 14px;
+  color: #999;
+  margin-left: 4px;
+  transition: transform 0.2s ease;
+}
+
+.history-record.expanded .history-arrow {
+  transform: rotate(90deg);
+}
+
+.history-details {
+  display: none;
+  padding: 0 14px 14px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.history-record.expanded .history-details {
+  display: block;
+}
+
+.history-student-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.history-student-row:last-child {
+  border-bottom: none;
+}
+
+.history-student-name {
+  color: #333;
+}
+
+.history-student-status {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.history-student-status.present { color: #28a745; }
+.history-student-status.absent  { color: #dc3545; }
+.history-student-status.late    { color: #ffc107; }
+.history-student-status.excused { color: #17a2b8; }
+
+.history-empty {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+  font-style: italic;
+}

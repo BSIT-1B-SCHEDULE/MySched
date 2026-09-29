@@ -667,6 +667,91 @@ document.getElementById("saveAttendance").onclick = async function () {
 };
 }, 500);
 
+// ---- ATTENDANCE HISTORY ----
+setTimeout(function () {
+  const historyBtn = document.getElementById("viewHistory");
+  if (!historyBtn) return;
+
+  historyBtn.onclick = async function () {
+    document.getElementById("attendanceModal").style.display = "none";
+    document.getElementById("historyModal").style.display = "flex";
+    document.getElementById("historyList").innerHTML = "Loading...";
+
+    try {
+      const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+      const snap = await getDocs(collection(window.db, "attendance"));
+
+      const records = [];
+      snap.forEach(d => records.push({ id: d.id, ...d.data() }));
+
+      records.sort((a, b) => {
+        const at = a.timestamp && a.timestamp.toMillis ? a.timestamp.toMillis() : 0;
+        const bt = b.timestamp && b.timestamp.toMillis ? b.timestamp.toMillis() : 0;
+        return bt - at;
+      });
+
+      if (!records.length) {
+        document.getElementById("historyList").innerHTML = "<div class='history-empty'>No attendance records yet</div>";
+        return;
+      }
+
+      let html = "";
+      records.forEach(function (rec) {
+        const recs = rec.records || [];
+        const present = recs.filter(r => r.status === "Present").length;
+        const absent = recs.filter(r => r.status === "Absent").length;
+        const late = recs.filter(r => r.status === "Late").length;
+        const excused = recs.filter(r => r.status === "Excused").length;
+
+        html += `
+          <div class="history-record" data-id="${rec.id}">
+            <div class="history-summary">
+              <div class="history-summary-text">
+                <div class="history-subject">📚 ${rec.subject || "Unknown"}</div>
+                <div class="history-date">📅 ${rec.date || "No date"}</div>
+              </div>
+              <div class="history-counts">
+                <span class="count-badge count-present">✅ ${present}</span>
+                <span class="count-badge count-absent">❌ ${absent}</span>
+                <span class="count-badge count-late">⏰ ${late}</span>
+                <span class="count-badge count-excused">📝 ${excused}</span>
+              </div>
+              <span class="history-arrow">▶</span>
+            </div>
+            <div class="history-details">
+              ${recs.map(r => `
+                <div class="history-student-row">
+                  <span class="history-student-name">${r.name}</span>
+                  <span class="history-student-status ${r.status.toLowerCase()}">${r.status}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById("historyList").innerHTML = html;
+
+      document.querySelectorAll(".history-record").forEach(function (el) {
+        el.querySelector(".history-summary").addEventListener("click", function () {
+          el.classList.toggle("expanded");
+        });
+      });
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById("historyList").innerHTML = "<div class='history-empty'>Failed to load history</div>";
+    }
+  };
+
+  const closeHist = document.getElementById("closeHistory");
+  if (closeHist) {
+    closeHist.onclick = function () {
+      document.getElementById("historyModal").style.display = "none";
+    };
+  }
+}, 1500);
+
 // ---- ADMIN DASHBOARD ----
 setTimeout(function () {
   if (localStorage.getItem("bsit_admin") === "yes") {
@@ -786,7 +871,8 @@ setTimeout(function () {
     <p id="attendanceDate" class="attendance-date"></p>
     <div id="attendanceList" class="attendance-list"></div>
     <div class="attendance-actions">
-      <button id="saveAttendance">💾 Save Attendance</button>
+     <button id="saveAttendance">💾 Save Attendance</button>
+<button id="viewHistory" style="background: rgb(3, 47, 77); margin-top: 8px;">📅 View Attendance History</button>
     </div>
   </div>
 </div>
@@ -824,5 +910,6 @@ setTimeout(function () {
     </div>
   </div>
 </div>
+
 </body>
 </html>
