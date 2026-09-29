@@ -1,10 +1,11 @@
-const CACHE_NAME = "mysched-v45";
+const CACHE_NAME = "mysched-v47";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./style.css",
   "./script.js",
   "./LOGO.png",
+  "./dssc.png",
   "./manifest.json"
 ];
 

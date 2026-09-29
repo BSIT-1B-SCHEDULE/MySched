@@ -18,7 +18,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("LOGO.png");
+  background-image: url("dssc.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -199,7 +199,7 @@ h2 {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("LOGO.png");
+  background-image: url("DSSC.png");
   background-size: 300px;
   background-position: center;
   background-repeat: no-repeat;
