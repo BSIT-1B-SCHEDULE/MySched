@@ -171,20 +171,6 @@ h2 {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
-
-.day-btn {
-  width: 90%;
-  padding: 13px 8px;
-  background: rgb(186, 196, 202);
-  color: rgb(3, 47, 77);
-  border: 2px solid rgba(3, 47, 77, 0.25);
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.25s ease, box-shadow 0.25s ease, color 0.2s ease;
-}
 .day-btn:hover {
   background: rgb(3, 47, 77);
   color: white;
