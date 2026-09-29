@@ -23,6 +23,7 @@
     <small>Your name will be saved on this device.</small>
   </div>
 </div>
+
 <!-- ANNOUNCEMENT BANNER -->
 <div id="announcementBanner" class="announcement-banner" style="display:none;">
   <div class="announcement-content">
@@ -200,8 +201,8 @@ document.getElementById("jitsiBtn").onclick = function () {
   <div class="side-panel-header">
     <h3 id="panelSubjectName">Subject</h3>
     <div>
-    <button id="attendanceBtn" title="Mark Attendance" style="display:none;">📋</button>
-    <button id="dashboardBtn" title="Admin Dashboard" style="display:none;">📊</button>
+      <button id="attendanceBtn" title="Mark Attendance" style="display:none;">📋</button>
+      <button id="dashboardBtn" title="Admin Dashboard" style="display:none;">📊</button>
       <button id="announceBtn" title="Post announcement" style="display:none;">📢</button>
       <button id="adminBtn" title="Admin login">🔑</button>
       <button id="closePanel">✖</button>
@@ -241,88 +242,136 @@ document.getElementById("jitsiBtn").onclick = function () {
   </div>
 </div>
 
+<!-- ATTENDANCE MODAL -->
+<div id="attendanceModal" class="attendance-modal" style="display:none;">
+  <div class="attendance-box">
+    <div class="attendance-header">
+      <h3 id="attendanceTitle">Attendance</h3>
+      <button id="closeAttendance">✖</button>
+    </div>
+    <p id="attendanceDate" class="attendance-date"></p>
+    <div id="attendanceList" class="attendance-list"></div>
+    <div class="attendance-actions">
+      <button id="saveAttendance">💾 Save Attendance</button>
+      <button id="viewHistory" style="background: rgb(3, 47, 77); margin-top: 8px;">📅 View Attendance History</button>
+    </div>
+  </div>
+</div>
+
+<!-- ATTENDANCE HISTORY MODAL -->
+<div id="historyModal" class="history-modal" style="display:none;">
+  <div class="history-box">
+    <div class="history-header">
+      <h3>📅 Attendance History</h3>
+      <button id="closeHistory">✖</button>
+    </div>
+    <div id="historyList" class="history-list">Loading...</div>
+  </div>
+</div>
+
+<!-- DASHBOARD MODAL -->
+<div id="dashboardModal" class="dashboard-modal" style="display:none;">
+  <div class="dashboard-box">
+    <div class="dashboard-header">
+      <h3>📊 Admin Dashboard</h3>
+      <button id="closeDashboard">✖</button>
+    </div>
+    <div class="dashboard-content">
+      <div class="dashboard-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalNotes">0</div>
+          <div class="stat-label">Total Notes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalAttendance">0</div>
+          <div class="stat-label">Attendance Records</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="statTotalStudents">0</div>
+          <div class="stat-label">Students</div>
+        </div>
+      </div>
+      <h4 class="dashboard-section-title">🏆 Top Posters</h4>
+      <div id="topPosters" class="dashboard-list">Loading...</div>
+      <h4 class="dashboard-section-title">🏫 Subject Activity</h4>
+      <div id="subjectActivity" class="dashboard-list">Loading...</div>
+      <h4 class="dashboard-section-title">📅 Recent Activity</h4>
+      <div id="recentActivity" class="dashboard-list">Loading...</div>
+    </div>
+  </div>
+</div>
+
 <script>
-    // ---- NAME GATE ----
-// ---- NAME GATE ----
-// 👇 ADD YOUR CLASS LIST HERE LATER
-const ALLOWED_NAMES = [
-  "Akhmad, Sitte Jahara Q",
-  "Alcasid, Shawn T",
-  "Aldaya, Marlbor Klarck L",
-  "Amahan, Rhyze Kristine Joy O",
-  "Antoniano, Daniel Henney D",
-  "Baoilan, Brentt Joseph Q",
-  "Batulanon, Tricia D",
-  "Cabaral, Angel B",
-  "Cardinas, Klever Dominique A",
-  "Catubig, Althea Mary Claire V",
-  "Ceriaco, Ivan James I",
-  "Chavez, Kent Cyne H",
-  "Coronel, Khent Son E",
-  "Dumayac, Kristoff Xander Levi A",
-  "Enoc, Alexis Frence P",
-  "Esmalde, Ralph John R",
-  "Fermo, Vincent Ruza A",
-  "Galindo, Jillyn M",
-  "Gaputan, John Rex S",
-  "Gella, Kervin Isaac",
-  "Macabales, Yorie R",
-  "Monsanto, Irish Jean T",
-  "Nacua, John Rex T",
-  "Neri, Nicole V",
-  "Obeso, Ezekiel A",
-  "Pajota, Christian Janjuv A",
-  "Panerio, Clark Dexter P",
-  "Ramos, King Floyd B",
-  "Remedios, Wred G",
-  "Salila, Shane Marie G",
-  "Sarabia, Josh Moses A.",
-  "Solatorio, Belove P",
-  "Torres, Lance M",
-  "Unggan, Jc",
-  "Villanueva, Prince Carl T",
-  "Yata, Maecy Jean C"
-];
+  // ---- CLASS LIST ----
+  const ALLOWED_NAMES = [
+    "Akhmad, Sitte Jahara Q",
+    "Alcasid, Shawn T",
+    "Aldaya, Marlbor Klarck L",
+    "Amahan, Rhyze Kristine Joy O",
+    "Antoniano, Daniel Henney D",
+    "Baoilan, Brentt Joseph Q",
+    "Batulanon, Tricia D",
+    "Cabaral, Angel B",
+    "Cardinas, Klever Dominique A",
+    "Catubig, Althea Mary Claire V",
+    "Ceriaco, Ivan James I",
+    "Chavez, Kent Cyne H",
+    "Coronel, Khent Son E",
+    "Dumayac, Kristoff Xander Levi A",
+    "Enoc, Alexis Frence P",
+    "Esmalde, Ralph John R",
+    "Fermo, Vincent Ruza A",
+    "Galindo, Jillyn M",
+    "Gaputan, John Rex S",
+    "Gella, Kervin Isaac",
+    "Macabales, Yorie R",
+    "Monsanto, Irish Jean T",
+    "Nacua, John Rex T",
+    "Neri, Nicole V",
+    "Obeso, Ezekiel A",
+    "Pajota, Christian Janjuv A",
+    "Panerio, Clark Dexter P",
+    "Ramos, King Floyd B",
+    "Remedios, Wred G",
+    "Salila, Shane Marie G",
+    "Sarabia, Josh Moses A.",
+    "Solatorio, Belove P",
+    "Torres, Lance M",
+    "Unggan, Jc",
+    "Villanueva, Prince Carl T",
+    "Yata, Maecy Jean C"
+  ];
 
-(function () {
-  const storedName = localStorage.getItem("bsit_student_name");
-
-  if (storedName) {
-document.getElementById("nameGate").classList.add("hidden");
-    return;
-  }
-
-  document.getElementById("gateEnter").onclick = function () {
-    const name = document.getElementById("gateName").value.trim();
-
-    if (!name || name.length < 3) {
-      alert("Please enter your full name (at least 3 characters).");
+  // ---- NAME GATE ----
+  (function () {
+    const storedName = localStorage.getItem("bsit_student_name");
+    if (storedName) {
+      document.getElementById("nameGate").classList.add("hidden");
       return;
     }
 
-    // If class list is empty, allow anyone (for now)
-    if (ALLOWED_NAMES.length === 0) {
-     localStorage.setItem("bsit_student_name", match);
-    document.getElementById("nameGate").classList.add("hidden");
-      return;
-    }
+    document.getElementById("gateEnter").onclick = function () {
+      const name = document.getElementById("gateName").value.trim();
+      if (!name || name.length < 3) {
+        alert("Please enter your full name (at least 3 characters).");
+        return;
+      }
+      const entered = name.toLowerCase();
+      const match = ALLOWED_NAMES.find(function (allowed) {
+        return allowed.toLowerCase().includes(entered) ||
+               entered.includes(allowed.toLowerCase());
+      });
 
-    // Check if name is on the list
-    const entered = name.toLowerCase();
-    const match = ALLOWED_NAMES.find(function (allowed) {
-      return allowed.toLowerCase().includes(entered) ||
-             entered.includes(allowed.toLowerCase());
-    });
+      if (match) {
+        localStorage.setItem("bsit_student_name", match);
+        document.getElementById("nameGate").classList.add("hidden");
+      } else {
+        alert("Sorry, your name is not on the BSIT 1B class list.\n\nIf you think this is a mistake, contact the class representative.");
+      }
+    };
+  })();
 
-    if (match) {
-    localStorage.setItem("bsit_student_name", match);
-     document.getElementById("nameGate").classList.add("hidden");
-    } else {
-      alert("Sorry, your name is not on the BSIT 1B class list.\n\nIf you think this is a mistake, contact the class representative.");
-    }
-  };
-})();
-  // Rules popup
+  // ---- RULES POPUP ----
   if (localStorage.getItem("bsit_rules_seen") === "yes") {
     document.getElementById("rulesPopup").style.display = "none";
   }
@@ -331,7 +380,7 @@ document.getElementById("nameGate").classList.add("hidden");
     document.getElementById("rulesPopup").style.display = "none";
   };
 
-  // Due date toggle
+  // ---- DUE DATE TOGGLE ----
   document.getElementById("noteCategory").addEventListener("change", function () {
     const dueInput = document.getElementById("noteDueDate");
     if (this.value === "Assignment") { dueInput.style.display = "block"; }
@@ -342,7 +391,7 @@ document.getElementById("nameGate").classList.add("hidden");
   const ADMIN_CODE = "ALEXIS-MASTER-2026";
   let currentSubject = "";
 
-  // Open panel when subject clicked
+  // ---- OPEN PANEL ----
   document.addEventListener("click", function (e) {
     const card = e.target.closest(".subject-card");
     if (card) {
@@ -383,6 +432,7 @@ document.getElementById("nameGate").classList.add("hidden");
     } else if (code !== null) { alert("Wrong code."); }
   };
 
+  // ---- ADMIN LOGIN ----
   document.getElementById("adminBtn").onclick = function () {
     const adminCode = prompt("Enter admin code (leave empty to log out):");
     if (adminCode === ADMIN_CODE) {
@@ -397,6 +447,7 @@ document.getElementById("nameGate").classList.add("hidden");
     } else { alert("Wrong admin code."); }
   };
 
+  // ---- POST NOTE ----
   document.getElementById("submitNote").onclick = async function () {
     const poster = document.getElementById("posterName").value.trim();
     const category = document.getElementById("noteCategory").value;
@@ -426,6 +477,7 @@ document.getElementById("nameGate").classList.add("hidden");
   document.getElementById("searchNotes").addEventListener("input", function () { loadNotes(); });
   document.getElementById("filterCategory").addEventListener("change", function () { loadNotes(); });
 
+  // ---- LOAD NOTES ----
   function loadNotes() {
     const { collection, onSnapshot, query, orderBy } = window.fsFns;
     const notesDiv = document.getElementById("notesList");
@@ -507,7 +559,7 @@ document.getElementById("nameGate").classList.add("hidden");
     });
   }
 
-  // ---- Assignment due reminders ----
+  // ---- ASSIGNMENT REMINDERS ----
   const dueNotified = new Set();
   function checkAssignmentDue() {
     if (!window.fsFns) return;
@@ -534,7 +586,7 @@ document.getElementById("nameGate").classList.add("hidden");
     setInterval(checkAssignmentDue, 5 * 60 * 1000);
   }, 3000);
 
-  // ---- Live countdown ----
+  // ---- LIVE COUNTDOWN ----
   function updateCountdowns() {
     const now = Date.now();
     document.querySelectorAll(".note-countdown").forEach(function (el) {
@@ -560,7 +612,7 @@ document.getElementById("nameGate").classList.add("hidden");
   setInterval(updateCountdowns, 1000);
   updateCountdowns();
 
-  // ---- ANNOUNCEMENT BANNER ----
+  // ---- ANNOUNCEMENT ----
   function loadAnnouncement() {
     if (!window.fsFns) return;
     const { collection, onSnapshot } = window.fsFns;
@@ -569,7 +621,10 @@ document.getElementById("nameGate").classList.add("hidden");
       if (snapshot.empty) { banner.style.display = "none"; return; }
       let latest = null;
       snapshot.forEach(function (doc) { latest = doc.data(); });
-      if (!latest || !latest.text) { banner.style.display = "none"; return; }
+      if (!latest || !latest.text || !latest.text.trim()) {
+        banner.style.display = "none";
+        return;
+      }
       document.getElementById("announcementText").textContent = latest.text;
       banner.style.display = "flex";
     });
@@ -594,322 +649,242 @@ document.getElementById("nameGate").classList.add("hidden");
     } catch (err) { console.error(err); alert("Failed to post announcement."); }
   };
   setTimeout(loadAnnouncement, 3000);
+
+  // ---- ATTENDANCE ----
   setTimeout(function () {
-// ---- ATTENDANCE SYSTEM ----
-if (localStorage.getItem("bsit_admin") === "yes") {
-  document.getElementById("attendanceBtn").style.display = "inline-block";
-}
+    if (localStorage.getItem("bsit_admin") === "yes") {
+      document.getElementById("attendanceBtn").style.display = "inline-block";
+    }
 
-document.getElementById("closeAttendance").onclick = function () {
-  document.getElementById("attendanceModal").style.display = "none";
-};
+    document.getElementById("closeAttendance").onclick = function () {
+      document.getElementById("attendanceModal").style.display = "none";
+    };
 
-document.getElementById("attendanceBtn").onclick = function () {
-  const today = new Date();
-  const dateStr = today.toLocaleDateString("en-PH", { year: "numeric", month: "long", day: "numeric" });
-
-  document.getElementById("attendanceTitle").textContent = "📋 " + currentSubject;
-  document.getElementById("attendanceDate").textContent = dateStr;
-
-  const list = document.getElementById("attendanceList");
-  list.innerHTML = "";
-
-  ALLOWED_NAMES.forEach(function (name) {
-    const div = document.createElement("div");
-    div.className = "attendance-student";
-    div.innerHTML = `
-      <span class="attendance-student-name">${name}</span>
-      <select class="attendance-select" data-name="${name}">
-        <option value="Present">Present</option>
-        <option value="Absent">Absent</option>
-        <option value="Late">Late</option>
-        <option value="Excused">Excused</option>
-      </select>
-    `;
-    list.appendChild(div);
-  });
-
-  list.querySelectorAll(".attendance-select").forEach(function (sel) {
-    sel.addEventListener("change", function () {
-      this.className = "attendance-select " + this.value.toLowerCase();
-    });
-  });
-
-  document.getElementById("attendanceModal").style.display = "flex";
-};
-
-document.getElementById("saveAttendance").onclick = async function () {
-  const today = new Date();
-  const dateKey = today.toISOString().split("T")[0];
-
-  const records = [];
-  document.querySelectorAll(".attendance-select").forEach(function (sel) {
-    records.push({
-      name: sel.getAttribute("data-name"),
-      status: sel.value
-    });
-  });
-
-  try {
-    const { collection, addDoc, serverTimestamp } = window.fsFns;
-    await addDoc(collection(window.db, "attendance"), {
-      subject: currentSubject,
-      date: dateKey,
-      records: records,
-      timestamp: serverTimestamp()
-    });
-    alert("✅ Attendance saved for " + dateKey);
-    document.getElementById("attendanceModal").style.display = "none";
-  } catch (err) {
-    console.error(err);
-    alert("Failed to save attendance. Check console.");
-  }
-};
-}, 500);
-
-// ---- ATTENDANCE HISTORY ----
-setTimeout(function () {
-  const historyBtn = document.getElementById("viewHistory");
-  if (!historyBtn) return;
-
-  historyBtn.onclick = async function () {
-    document.getElementById("attendanceModal").style.display = "none";
-    document.getElementById("historyModal").style.display = "flex";
-    document.getElementById("historyList").innerHTML = "Loading...";
-
-    try {
-      const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-      const snap = await getDocs(collection(window.db, "attendance"));
-
-      const records = [];
-      snap.forEach(d => records.push({ id: d.id, ...d.data() }));
-
-      records.sort((a, b) => {
-        const at = a.timestamp && a.timestamp.toMillis ? a.timestamp.toMillis() : 0;
-        const bt = b.timestamp && b.timestamp.toMillis ? b.timestamp.toMillis() : 0;
-        return bt - at;
-      });
-
-      if (!records.length) {
-        document.getElementById("historyList").innerHTML = "<div class='history-empty'>No attendance records yet</div>";
-        return;
-      }
-
-      let html = "";
-      records.forEach(function (rec) {
-        const recs = rec.records || [];
-        const present = recs.filter(r => r.status === "Present").length;
-        const absent = recs.filter(r => r.status === "Absent").length;
-        const late = recs.filter(r => r.status === "Late").length;
-        const excused = recs.filter(r => r.status === "Excused").length;
-
-        html += `
-          <div class="history-record" data-id="${rec.id}">
-            <div class="history-summary">
-              <div class="history-summary-text">
-                <div class="history-subject">📚 ${rec.subject || "Unknown"}</div>
-                <div class="history-date">📅 ${rec.date || "No date"}</div>
-              </div>
-              <div class="history-counts">
-                <span class="count-badge count-present">✅ ${present}</span>
-                <span class="count-badge count-absent">❌ ${absent}</span>
-                <span class="count-badge count-late">⏰ ${late}</span>
-                <span class="count-badge count-excused">📝 ${excused}</span>
-              </div>
-              <span class="history-arrow">▶</span>
-            </div>
-            <div class="history-details">
-              ${recs.map(r => `
-                <div class="history-student-row">
-                  <span class="history-student-name">${r.name}</span>
-                  <span class="history-student-status ${r.status.toLowerCase()}">${r.status}</span>
-                </div>
-              `).join("")}
-            </div>
-          </div>
+    document.getElementById("attendanceBtn").onclick = function () {
+      const today = new Date();
+      const dateStr = today.toLocaleDateString("en-PH", { year: "numeric", month: "long", day: "numeric" });
+      document.getElementById("attendanceTitle").textContent = "📋 " + currentSubject;
+      document.getElementById("attendanceDate").textContent = dateStr;
+      const list = document.getElementById("attendanceList");
+      list.innerHTML = "";
+      ALLOWED_NAMES.forEach(function (name) {
+        const div = document.createElement("div");
+        div.className = "attendance-student";
+        div.innerHTML = `
+          <span class="attendance-student-name">${name}</span>
+          <select class="attendance-select" data-name="${name}">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="Late">Late</option>
+            <option value="Excused">Excused</option>
+          </select>
         `;
+        list.appendChild(div);
       });
-
-      document.getElementById("historyList").innerHTML = html;
-
-      document.querySelectorAll(".history-record").forEach(function (el) {
-        el.querySelector(".history-summary").addEventListener("click", function () {
-          el.classList.toggle("expanded");
+      list.querySelectorAll(".attendance-select").forEach(function (sel) {
+        sel.addEventListener("change", function () {
+          this.className = "attendance-select " + this.value.toLowerCase();
         });
       });
-
-    } catch (err) {
-      console.error(err);
-      document.getElementById("historyList").innerHTML = "<div class='history-empty'>Failed to load history</div>";
-    }
-  };
-
-  const closeHist = document.getElementById("closeHistory");
-  if (closeHist) {
-    closeHist.onclick = function () {
-      document.getElementById("historyModal").style.display = "none";
+      document.getElementById("attendanceModal").style.display = "flex";
     };
-  }
-}, 1500);
 
-// ---- ADMIN DASHBOARD ----
-setTimeout(function () {
-  if (localStorage.getItem("bsit_admin") === "yes") {
-    const btn = document.getElementById("dashboardBtn");
-    if (btn) btn.style.display = "inline-block";
-  }
-
-  const closeBtn = document.getElementById("closeDashboard");
-  if (closeBtn) {
-    closeBtn.onclick = function () {
-      document.getElementById("dashboardModal").style.display = "none";
+    document.getElementById("saveAttendance").onclick = async function () {
+      const today = new Date();
+      const dateKey = today.toISOString().split("T")[0];
+      const records = [];
+      document.querySelectorAll(".attendance-select").forEach(function (sel) {
+        records.push({
+          name: sel.getAttribute("data-name"),
+          status: sel.value
+        });
+      });
+      try {
+        const { collection, addDoc, serverTimestamp } = window.fsFns;
+        await addDoc(collection(window.db, "attendance"), {
+          subject: currentSubject,
+          date: dateKey,
+          records: records,
+          timestamp: serverTimestamp()
+        });
+        alert("✅ Attendance saved for " + dateKey);
+        document.getElementById("attendanceModal").style.display = "none";
+      } catch (err) {
+        console.error(err);
+        alert("Failed to save attendance. Check console.");
+      }
     };
-  }
+  }, 500);
 
-  const dashBtn = document.getElementById("dashboardBtn");
-  if (dashBtn) {
-    dashBtn.onclick = async function () {
-      const modal = document.getElementById("dashboardModal");
-      modal.style.display = "flex";
-
-      document.getElementById("topPosters").innerHTML = "Loading...";
-      document.getElementById("subjectActivity").innerHTML = "Loading...";
-      document.getElementById("recentActivity").innerHTML = "Loading...";
-
+  // ---- ATTENDANCE HISTORY ----
+  setTimeout(function () {
+    const historyBtn = document.getElementById("viewHistory");
+    if (!historyBtn) return;
+    historyBtn.onclick = async function () {
+      document.getElementById("attendanceModal").style.display = "none";
+      document.getElementById("historyModal").style.display = "flex";
+      document.getElementById("historyList").innerHTML = "Loading...";
       try {
         const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-
-        const notesSnap = await getDocs(collection(window.db, "notes"));
-        const attendanceSnap = await getDocs(collection(window.db, "attendance"));
-
-        const notes = [];
-        notesSnap.forEach(d => notes.push({ id: d.id, ...d.data() }));
-
-        const attendance = [];
-        attendanceSnap.forEach(d => attendance.push({ id: d.id, ...d.data() }));
-
-        document.getElementById("statTotalNotes").textContent = notes.length;
-        document.getElementById("statTotalAttendance").textContent = attendance.length;
-        document.getElementById("statTotalStudents").textContent = ALLOWED_NAMES.length;
-
-        const posters = {};
-        notes.forEach(n => {
-          const name = n.poster || "Unknown";
-          posters[name] = (posters[name] || 0) + 1;
+        const snap = await getDocs(collection(window.db, "attendance"));
+        const records = [];
+        snap.forEach(d => records.push({ id: d.id, ...d.data() }));
+        records.sort((a, b) => {
+          const at = a.timestamp && a.timestamp.toMillis ? a.timestamp.toMillis() : 0;
+          const bt = b.timestamp && b.timestamp.toMillis ? b.timestamp.toMillis() : 0;
+          return bt - at;
         });
-        const sortedPosters = Object.entries(posters).sort((a, b) => b[1] - a[1]).slice(0, 5);
-
-        document.getElementById("topPosters").innerHTML = sortedPosters.length
-          ? sortedPosters.map((p, i) => `
-              <div class="dashboard-row">
-                <span>${i + 1}. ${p[0]}</span>
-                <span class="dashboard-count">${p[1]} ${p[1] === 1 ? "note" : "notes"}</span>
+        if (!records.length) {
+          document.getElementById("historyList").innerHTML = "<div class='history-empty'>No attendance records yet</div>";
+          return;
+        }
+        let html = "";
+        records.forEach(function (rec) {
+          const recs = rec.records || [];
+          const present = recs.filter(r => r.status === "Present").length;
+          const absent = recs.filter(r => r.status === "Absent").length;
+          const late = recs.filter(r => r.status === "Late").length;
+          const excused = recs.filter(r => r.status === "Excused").length;
+          html += `
+            <div class="history-record" data-id="${rec.id}">
+              <div class="history-summary">
+                <div class="history-summary-text">
+                  <div class="history-subject">📚 ${rec.subject || "Unknown"}</div>
+                  <div class="history-date">📅 ${rec.date || "No date"}</div>
+                </div>
+                <div class="history-counts">
+                  <span class="count-badge count-present">✅ ${present}</span>
+                  <span class="count-badge count-absent">❌ ${absent}</span>
+                  <span class="count-badge count-late">⏰ ${late}</span>
+                  <span class="count-badge count-excused">📝 ${excused}</span>
+                </div>
+                <span class="history-arrow">▶</span>
               </div>
-            `).join("")
-          : "<div class='dashboard-empty'>No notes yet</div>";
-
-        const subjects = {};
-        notes.forEach(n => {
-          const s = n.subject || "Unknown";
-          subjects[s] = (subjects[s] || 0) + 1;
+              <div class="history-details">
+                ${recs.map(r => `
+                  <div class="history-student-row">
+                    <span class="history-student-name">${r.name}</span>
+                    <span class="history-student-status ${r.status.toLowerCase()}">${r.status}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          `;
         });
-        const sortedSubjects = Object.entries(subjects).sort((a, b) => b[1] - a[1]);
+        document.getElementById("historyList").innerHTML = html;
+        document.querySelectorAll(".history-record").forEach(function (el) {
+          el.querySelector(".history")
+                el.querySelector(".history-summary").addEventListener("click", function () {
+        el.classList.toggle("expanded");
+      });
+    });
 
-        document.getElementById("subjectActivity").innerHTML = sortedSubjects.length
-          ? sortedSubjects.map(s => `
-              <div class="dashboard-row">
-                <span>${s[0]}</span>
-                <span class="dashboard-count">${s[1]} ${s[1] === 1 ? "note" : "notes"}</span>
-              </div>
-            `).join("")
-          : "<div class='dashboard-empty'>No activity yet</div>";
+  } catch (err) {
+    console.error(err);
+    document.getElementById("historyList").innerHTML = "<div class='history-empty'>Failed to load history</div>";
+  }
+    };
 
-        const recentNotes = notes
-          .filter(n => n.timestamp)
-          .map(n => ({
+    const closeHist = document.getElementById("closeHistory");
+    if (closeHist) {
+      closeHist.onclick = function () {
+        document.getElementById("historyModal").style.display = "none";
+      };
+    }
+  }, 1500);
+
+  // ---- ADMIN DASHBOARD ----
+  setTimeout(function () {
+    if (localStorage.getItem("bsit_admin") === "yes") {
+      const btn = document.getElementById("dashboardBtn");
+      if (btn) btn.style.display = "inline-block";
+    }
+
+    const closeBtn = document.getElementById("closeDashboard");
+    if (closeBtn) {
+      closeBtn.onclick = function () {
+        document.getElementById("dashboardModal").style.display = "none";
+      };
+    }
+
+    const dashBtn = document.getElementById("dashboardBtn");
+    if (dashBtn) {
+      dashBtn.onclick = async function () {
+        const modal = document.getElementById("dashboardModal");
+        modal.style.display = "flex";
+        document.getElementById("topPosters").innerHTML = "Loading...";
+        document.getElementById("subjectActivity").innerHTML = "Loading...";
+        document.getElementById("recentActivity").innerHTML = "Loading...";
+
+        try {
+          const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+          const notesSnap = await getDocs(collection(window.db, "notes"));
+          const attendanceSnap = await getDocs(collection(window.db, "attendance"));
+          const notes = [];
+          notesSnap.forEach(d => notes.push({ id: d.id, ...d.data() }));
+          const attendance = [];
+          attendanceSnap.forEach(d => attendance.push({ id: d.id, ...d.data() }));
+
+          document.getElementById("statTotalNotes").textContent = notes.length;
+          document.getElementById("statTotalAttendance").textContent = attendance.length;
+          document.getElementById("statTotalStudents").textContent = ALLOWED_NAMES.length;
+
+          const posters = {};
+          notes.forEach(n => {
+            const name = n.poster || "Unknown";
+            posters[name] = (posters[name] || 0) + 1;
+          });
+          const sortedPosters = Object.entries(posters).sort((a, b) => b[1] - a[1]).slice(0, 5);
+          document.getElementById("topPosters").innerHTML = sortedPosters.length
+            ? sortedPosters.map((p, i) => `
+                <div class="dashboard-row">
+                  <span>${i + 1}. ${p[0]}</span>
+                  <span class="dashboard-count">${p[1]} ${p[1] === 1 ? "note" : "notes"}</span>
+                </div>
+              `).join("")
+            : "<div class='dashboard-empty'>No notes yet</div>";
+
+          const subjects = {};
+          notes.forEach(n => {
+            const s = n.subject || "Unknown";
+            subjects[s] = (subjects[s] || 0) + 1;
+          });
+          const sortedSubjects = Object.entries(subjects).sort((a, b) => b[1] - a[1]);
+          document.getElementById("subjectActivity").innerHTML = sortedSubjects.length
+            ? sortedSubjects.map(s => `
+                <div class="dashboard-row">
+                  <span>${s[0]}</span>
+                  <span class="dashboard-count">${s[1]} ${s[1] === 1 ? "note" : "notes"}</span>
+                </div>
+              `).join("")
+            : "<div class='dashboard-empty'>No activity yet</div>";
+
+          const recentNotes = notes.filter(n => n.timestamp).map(n => ({
             type: "note",
             text: `${n.poster || "?"} posted "${n.title || "untitled"}" in ${n.subject || "?"}`,
             time: n.timestamp.toMillis ? n.timestamp.toMillis() : 0
           }));
-
-        const recentAttendance = attendance
-          .filter(a => a.timestamp)
-          .map(a => ({
+          const recentAttendance = attendance.filter(a => a.timestamp).map(a => ({
             type: "attendance",
             text: `Attendance saved for ${a.subject || "?"} on ${a.date || "?"}`,
             time: a.timestamp.toMillis ? a.timestamp.toMillis() : 0
           }));
-
-        const recent = [...recentNotes, ...recentAttendance]
-          .sort((a, b) => b.time - a.time)
-          .slice(0, 10);
-
-        document.getElementById("recentActivity").innerHTML = recent.length
-          ? recent.map(r => `
-              <div class="dashboard-row">
-                <span>${r.type === "note" ? "📝" : "📋"} ${r.text}</span>
-                <span class="dashboard-time">${new Date(r.time).toLocaleDateString()}</span>
-              </div>
-            `).join("")
-          : "<div class='dashboard-empty'>No recent activity</div>";
-
-      } catch (err) {
-        console.error(err);
-        alert("Failed to load dashboard data.");
-      }
-    };
-  }
-}, 1000);
+          const recent = [...recentNotes, ...recentAttendance].sort((a, b) => b.time - a.time).slice(0, 10);
+          document.getElementById("recentActivity").innerHTML = recent.length
+            ? recent.map(r => `
+                <div class="dashboard-row">
+                  <span>${r.type === "note" ? "📝" : "📋"} ${r.text}</span>
+                  <span class="dashboard-time">${new Date(r.time).toLocaleDateString()}</span>
+                </div>
+              `).join("")
+            : "<div class='dashboard-empty'>No recent activity</div>";
+        } catch (err) {
+          console.error(err);
+          alert("Failed to load dashboard data.");
+        }
+      };
+    }
+  }, 1000);
 </script>
-<!-- ATTENDANCE MODAL -->
-<div id="attendanceModal" class="attendance-modal" style="display:none;">
-  <div class="attendance-box">
-    <div class="attendance-header">
-      <h3 id="attendanceTitle">Attendance</h3>
-      <button id="closeAttendance">✖</button>
-    </div>
-    <p id="attendanceDate" class="attendance-date"></p>
-    <div id="attendanceList" class="attendance-list"></div>
-    <div class="attendance-actions">
-     <button id="saveAttendance">💾 Save Attendance</button>
-<button id="viewHistory" style="background: rgb(3, 47, 77); margin-top: 8px;">📅 View Attendance History</button>
-    </div>
-  </div>
-</div>
-<!-- DASHBOARD MODAL -->
-<div id="dashboardModal" class="dashboard-modal" style="display:none;">
-  <div class="dashboard-box">
-    <div class="dashboard-header">
-      <h3>📊 Admin Dashboard</h3>
-      <button id="closeDashboard">✖</button>
-    </div>
-    <div class="dashboard-content">
-      <div class="dashboard-stats">
-        <div class="stat-card">
-          <div class="stat-number" id="statTotalNotes">0</div>
-          <div class="stat-label">Total Notes</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="statTotalAttendance">0</div>
-          <div class="stat-label">Attendance Records</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="statTotalStudents">0</div>
-          <div class="stat-label">Students</div>
-        </div>
-      </div>
-
-      <h4 class="dashboard-section-title">🏆 Top Posters</h4>
-      <div id="topPosters" class="dashboard-list">Loading...</div>
-
-      <h4 class="dashboard-section-title">🏫 Subject Activity</h4>
-      <div id="subjectActivity" class="dashboard-list">Loading...</div>
-
-      <h4 class="dashboard-section-title">📅 Recent Activity</h4>
-      <div id="recentActivity" class="dashboard-list">Loading...</div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>

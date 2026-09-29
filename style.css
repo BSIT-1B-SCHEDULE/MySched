@@ -153,12 +153,26 @@ h2 {
 }
 
 /* ---------- DAY BUTTONS ---------- */
-.day-buttons {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  /* Day buttons: 3 columns, centered */
+ .day-buttons {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto 20px;
+  max-width: 100%;
 }
+  .day-btn {
+  padding: 14px 6px;
+  font-size: 13px;
+  width: 100%;
+  min-width: 0;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 
 .day-btn {
   width: 100%;

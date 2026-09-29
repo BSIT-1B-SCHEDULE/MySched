@@ -1,4 +1,4 @@
-const CACHE_NAME = "mysched-v47";
+const CACHE_NAME = "mysched-v48";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
