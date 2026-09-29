@@ -1,4 +1,4 @@
-const CACHE_NAME = "mysched-v42";
+const CACHE_NAME = "mysched-v43";
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
@@ -36,16 +36,28 @@ self.addEventListener("fetch", function (event) {
   if (!url.startsWith(self.location.origin)) return;
 
   event.respondWith(
-    fetch(event.request)
-      .then(function (response) {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(function (cache) {
-          cache.put(event.request, clone);
-        });
+    caches.match(event.request).then(function (cached) {
+      if (cached) {
+        fetch(event.request).then(function (response) {
+          if (response && response.status === 200) {
+            caches.open(CACHE_NAME).then(function (cache) {
+              cache.put(event.request, response.clone());
+            });
+          }
+        }).catch(function () {});
+        return cached;
+      }
+      return fetch(event.request).then(function (response) {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, clone);
+          });
+        }
         return response;
-      })
-      .catch(function () {
-        return caches.match(event.request);
-      })
+      }).catch(function () {
+        return caches.match("./index.html");
+      });
+    })
   );
 });
