@@ -179,11 +179,11 @@ h2 {
   box-shadow: 0 6px 14px rgba(3, 47, 77, 0.2);
 }
 .day-btn.active {
-   background: #2097e7 !important; /* Dark Blue */
+   background: #013151 !important; /* Dark Blue */
   color: white !important;
-  background: rgb(28, 115, 172);
+  background: rgb(3, 56, 92);
   color: rgb(220, 225, 230);
-  border-color: rgb(3, 47, 77);
+  border-color: rgb(48, 120, 168);
   transform: translateY(0);
   box-shadow: 0 4px 10px rgba(3, 47, 77, 0.3);
 }
