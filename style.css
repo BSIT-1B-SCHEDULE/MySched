@@ -92,7 +92,7 @@ h2 {
   text-align: center;
 }
 
-/* ---------- HEADER ---------- */
+/*  HEADER */
 .logo-header {
   text-align: center;
   margin-bottom: 20px;
@@ -101,6 +101,8 @@ h2 {
   width: 100px;
   height: 100px;
   object-fit: contain;
+  background: transparent; 
+  mix-blend-mode: darken; 
 }
 .logo-header h1 {
   font-size: 32px;
