@@ -1,13 +1,12 @@
-/* ============================================================
-   BSIT 1B Schedule — style.css (clean version)
-   ============================================================ */
 
-/* ---------- BASE ---------- */
+
+
+/* BASE  */
 * { box-sizing: border-box; }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: rgb(132, 177, 216);
+  background-color: rgb(202, 233, 244);
   padding: 20px;
   margin: 0 auto;
   max-width: 900px;
