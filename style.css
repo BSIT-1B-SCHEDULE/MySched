@@ -304,10 +304,10 @@ h2 {
   position: fixed;
   top: 0;
   right: -100vw;
-  width: 300px;
-  max-width: 90%;
+  width:  50%;
+  max-width: 50%;
   height: 100%;
-  background: #94bfe5;
+  background: #154875;
   box-shadow: -4px 0 15px rgba(0,0,0,0.2);
   transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   z-index: 10000;
