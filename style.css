@@ -6,7 +6,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: rgb(202, 233, 244);
+  background-color: rgb(219, 225, 230);
   padding: 20px;
   margin: 0 auto;
   max-width: 900px;
@@ -997,9 +997,7 @@ h2 {
   font-style: italic;
 }
 
-/* ============================================================
-   MOBILE (phones up to 900px wide)
-   ============================================================ */
+/* MOBILE (phones up to 900px wide) */
 @media (max-width: 900px) {
 
   body { padding: 15px; }
@@ -1007,24 +1005,27 @@ h2 {
   /* Side panel: 95% width, full height */
   /* Side panel: 100% width, full height */
   .side-panel {
-    width: 100vw !important;
-    max-width: none !important;
-    right: -100vw !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    padding: 14px 12px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    overflow-y: auto !important;
-    z-index: 10000 !important;
+    position: fixed;
+    width: 50vw;
+    max-width: 50vw;
+    right: -50vw;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    z-index: 10000;
     box-shadow: -8px 0 20px rgba(0,0,0,0.25);
+    background: #fff;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   }
+
   .side-panel.open {
-    right: 0 !important;
+    right: 0;
   }
-  /* ---------- ATTENDANCE HISTORY MODAL ---------- */
+  /* ATTENDANCE HISTORY MODAL */
 .history-modal {
   position: fixed;
   inset: 0;
