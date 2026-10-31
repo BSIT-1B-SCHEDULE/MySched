@@ -306,8 +306,8 @@ h2 {
   position: fixed;
   top: 0;
   right: -100vw;
-  width:  50%;
-  max-width: 50%;
+  width:  80%;
+  max-width: 80%;
   height: 100%;
   background: #154875;
   box-shadow: -4px 0 15px rgba(0,0,0,0.2);
