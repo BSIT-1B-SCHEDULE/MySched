@@ -1,4 +1,4 @@
-// ---- Class reminders ----
+
 const reminderSchedule = {
     Monday: [
         ["Life and Works of Rizal", "10:00 AM"],

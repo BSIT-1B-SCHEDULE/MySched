@@ -172,7 +172,7 @@ h2 {
   text-overflow: ellipsis;
 }
 .day-btn:hover {
-  background: rgb(3, 47, 77);
+  background: rgba(71, 161, 220, 0.961);
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(3, 47, 77, 0.2);
@@ -209,11 +209,11 @@ h2 {
 
 #schedule p {
   background: rgba(255, 255, 255, 0.92);
-  color: rgb(3, 47, 77);
+  color: rgb(50, 147, 211);
   padding: 16px;
   margin: 10px 0;
   border-radius: 10px;
-  border-left: 5px solid rgb(3, 47, 77);
+  border-left: 5px solid rgb(82, 164, 218);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
   font-size: 16px;
   font-weight: 600;
@@ -277,7 +277,7 @@ h2 {
 /* ---------- ADD SUBJECT FORM ---------- */
 #addSubject {
   margin-top: 20px;
-  background-color: rgb(3, 47, 77);
+  background-color: rgb(178, 218, 245);
 }
 #addForm {
   background: rgba(255, 255, 255, 0.94);
@@ -299,15 +299,15 @@ h2 {
   margin-top: 0;
 }
 
-/* ---------- SIDE PANEL ---------- */
+/*SIDE PANEL */
 .side-panel {
   position: fixed;
   top: 0;
   right: -100vw;
-  width: 380px;
+  width: 300px;
   max-width: 90%;
   height: 100%;
-  background: #fff;
+  background: #94bfe5;
   box-shadow: -4px 0 15px rgba(0,0,0,0.2);
   transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   z-index: 10000;
